@@ -19,7 +19,7 @@ export default {
     RequestPing: function () {
       DebugApiServices.getPingAsync()
         .then(res => {
-          console.log(res);
+          //console.log(res);
           this.ping = res.data;
           //ping.value =data;
         })

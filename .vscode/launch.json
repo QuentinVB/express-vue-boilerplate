@@ -11,12 +11,13 @@
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}\\server\\server.js"
     },
+
     {
       "type": "chrome",
       "request": "launch",
-      "name": "Launch Chrome against localhost",
-      "url": "http://localhost:5137",
-      "webRoot": "${workspaceFolder}\\app\\src"
+      "name": "Debug App",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/app/src"
     }
   ]
 }

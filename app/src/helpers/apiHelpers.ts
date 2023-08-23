@@ -1,3 +1,4 @@
+import authService from '@/services/auth';
 import axios from 'axios'
 
 /*
@@ -7,6 +8,18 @@ function dataFilter (data, type) {
 }
 */
 
+function getAxiosConfig()
+{
+  const authConfig = authService.IsLogged ? {Authorization: `Bearer ${authService.JWT_TOKEN}`}:null;
+
+  const config = 
+  {
+    headers: { ...authConfig }
+  };
+  return config;
+}
+
+
 export function getAsync(url: string) {
   /* await axios.get({
     method: 'GET',
@@ -15,7 +28,7 @@ export function getAsync(url: string) {
     dataFilter: dataFilter,
 });
 */
-  return axios.get(url)
+  return axios.get(url,getAxiosConfig())
   //TODO add security here (if returned type is not a )
 }
 
@@ -27,7 +40,7 @@ export function putAsync(url: string, data: Object) {
       dataFilter: dataFilter,
   });
   */
-  return axios.put(url, data)
+  return axios.put(url, data,getAxiosConfig())
 }
 
 export function postAsync(url: string, data: Object) {
@@ -38,5 +51,5 @@ export function postAsync(url: string, data: Object) {
       dataFilter: dataFilter,
   });
   */
-  return axios.post(url, data)
+  return axios.post(url, data,getAxiosConfig())
 }

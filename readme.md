@@ -25,3 +25,4 @@ https://elijahmanor.com/blog/npm-precommit-scripts
 DEBUG=*
 
 https://expressjs.com/en/resources/middleware/cors.html
+https://ideneal.medium.com/securing-authentication-in-a-spa-using-jwt-token-the-coolest-way-ab883bc372b6

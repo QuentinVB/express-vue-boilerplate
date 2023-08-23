@@ -1,3 +1,9 @@
+export interface UserCredentials 
+{
+  userName?: String,
+  password?: String
+}
+
 export default class User {
   public id: String
   public userName?: String

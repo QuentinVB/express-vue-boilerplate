@@ -3,9 +3,14 @@
 //
 import PostApiServices from '@/services/post'
 import Post from '@/models/Post'
+import AuthServices from '@/services/auth'
+
 import { ref } from 'vue'
 
+const IsLogged = ref(AuthServices.IsLogged);
 const message = ref("");
+
+console.log(AuthServices.JWT_TOKEN);
 
 function SendMessage() {
   const post = new Post("");
@@ -25,8 +30,9 @@ function SendMessage() {
 </script>
 
 <template>
+  <p v-if="IsLogged">Logged</p>
+  <p v-else>Not logged</p>
   <div class="message">
-    <h1>This is a page to ping the server</h1>
     <p style="white-space: pre-line;">{{ message }}</p>
     <textarea v-model="message" placeholder="add multiple lines"></textarea>
     <button type="button" @click="SendMessage">Send Message</button>
