@@ -26,3 +26,4 @@ DEBUG=*
 
 https://expressjs.com/en/resources/middleware/cors.html
 https://ideneal.medium.com/securing-authentication-in-a-spa-using-jwt-token-the-coolest-way-ab883bc372b6
+https://medium.com/lightrail/getting-token-authentication-right-in-a-stateless-single-page-application-57d0c6474e3

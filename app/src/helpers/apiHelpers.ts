@@ -14,7 +14,8 @@ function getAxiosConfig()
 
   const config = 
   {
-    headers: { ...authConfig }
+    headers: { ...authConfig },
+    withCredentials: authService.IsLogged
   };
   return config;
 }

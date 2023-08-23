@@ -20,16 +20,23 @@ const login = asyncHandler(async (req, res, next) => {
         return res.status(401).json({ error: "Mot de passe incorrect !" });
     }
 
+    //Generate and split the token
+    const JWT_TokenSplited = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET_TOKEN, // le token est signé avec le secret dans notre fichier .env et le token expire dans une durée de 24h
+      { expiresIn: "24h" }
+    )
+    .split('.');
+
+    const cookieOptions = { maxAge: 1000*60*15, httpOnly: true } //15 min
+    //signature is stored into a cookie, the header and payload are send into the body
     res
     .status(200)
+    .cookie('JWT_SIGN',JWT_TokenSplited[2],cookieOptions)
     .json({
         // si cela correspond on renvoie l'id utilisateur et on le signe
         userId: user.id,
-        token: jwt.sign(
-          { userId: user._id },
-          process.env.JWT_SECRET_TOKEN, // le token est signé avec le secret dans notre fichier .env et le token expire dans une durée de 24h
-          { expiresIn: "24h" }
-        ),
+        token: `${JWT_TokenSplited[0]}.${JWT_TokenSplited[1]}`,
       });
   });
 

@@ -10,7 +10,6 @@ import { ref } from 'vue'
 const IsLogged = ref(AuthServices.IsLogged);
 const message = ref("");
 
-console.log(AuthServices.JWT_TOKEN);
 
 function SendMessage() {
   const post = new Post("");

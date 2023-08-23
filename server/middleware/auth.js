@@ -3,7 +3,12 @@ const jwt = require("jsonwebtoken");
 // JWT Auth Token module
 module.exports = (req, res, next) => {
 	try {
-		const token = req.headers.authorization.split(" ")[1]; 
+		//get header and payload from authorization bearer
+		const tokenPart1 = req.headers.authorization.split(" ")[1]; 
+		//and get cookie session signature
+		const tokenPart2 = req.cookies["JWT_SIGN"];
+		const token = `${tokenPart1}.${tokenPart2}`;
+
 		const decodedToken = jwt.verify(token, process.env.JWT_SECRET_TOKEN); 
 		const userId = decodedToken.userId; 
 		req.auth = {

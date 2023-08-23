@@ -5,20 +5,20 @@ import Service from './service'
 const endpoint = 'auth'
 
 class AuthServices extends Service {
-  private USERID = '';
-  private JWTTOKEN = '';
+  private USERID = localStorage.getItem('userId')
+  private JWT_header = localStorage.getItem('JWT_header')
+  private JWT_payload = localStorage.getItem('JWT_payload')
 
   public get JWT_TOKEN(): string {
-    return this.JWTTOKEN
+    return `${this.JWT_header}.${this.JWT_payload}`
   }
-  public get USER_ID(): string {
+  public get USER_ID(): string | null {
     return this.USERID
   }
 
-  public get IsLogged() : boolean {
-    return !!this.USERID && !!this.JWTTOKEN ;
+  public get IsLogged(): boolean {
+    return !!this.USERID && !!this.JWT_header && !!this.JWT_payload
   }
-  
 
   public register() {
     //TODO
@@ -28,14 +28,27 @@ class AuthServices extends Service {
     return postAsync(this.forgeUrl(`${endpoint}/login`), credentials)
       .then((res) => {
         //TODO : check if status 200
-        console.log(res.data);
-        this.USERID = res.data.userId;
-        this.JWTTOKEN = res.data.token;
+        this.USERID = res.data.userId
+        localStorage.setItem('userId', res.data.userId)
+
+        const splitedJWT = res.data.token.split('.')
+        //should be length 2
+        console.log(splitedJWT.length === 2)
+        const header = splitedJWT[0]
+        const payload = splitedJWT[1]
+        this.JWT_header = header
+        this.JWT_payload = payload
+
+        //store header and payload to LocalStorage
+        localStorage.setItem('JWT_header', header)
+        localStorage.setItem('JWT_payload', payload)
+
+        //signature is stored in session cookie
 
         //then store localy
         console.log(this.IsLogged)
       })
-    .catch((err) => {
+      .catch((err) => {
         console.error(err)
       })
   }
