@@ -3,11 +3,10 @@
 /**
  * Module dependencies.
  */
-require('dotenv').config();
+const http = require('http');
+const debug = require('debug')();
 
 const app = require('./app');
-const debug = require('debug')();
-const http = require('http');
 const normalizePort = require('./middleware/httpPortNormaliser');
 const onError = require('./middleware/httpErrorHandler');
 
@@ -17,10 +16,9 @@ app.set('port', port);
 const server = http.createServer(app);
 
 server.listen(port);
-//server.on('error', onError);
-//server.on('listening', onListening);
-
-
+console.log(`Server started on ${server.address().address}/${port}, with ${process.env.NODE_ENV} mode`)
+server.on('error', onError);
+server.on('listening', onListening);
 
 /**
  * Event listener for HTTP server "listening" event.

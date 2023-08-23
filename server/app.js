@@ -1,7 +1,4 @@
 //run backend server and serve app
-//TODO switch according to config (prod/stage/dev)
-require("dotenv").config();
-const isDev = process.env.NODE_ENV === "development";
 
 //packages
 const path = require("path");

@@ -15,6 +15,11 @@ flowchart LR
     Controllers -- Utillise --> Model
 ```
 
+TODO : 
+- [ ] prod/dev mode
+
 https://mermaid.js.org/intro/
 https://expressjs.com/fr/4x/api.html
 https://elijahmanor.com/blog/npm-precommit-scripts
+
+DEBUG=*

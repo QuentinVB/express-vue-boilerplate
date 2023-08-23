@@ -1,1 +1,4 @@
+# project specific GitIgnore
 dist/
+.env.dev
+.env.prod
