@@ -7,8 +7,8 @@ function dataFilter (data, type) {
 }
 */
 
-export function getAsync (url:string) {
-/* await axios.get({
+export function getAsync(url: string) {
+  /* await axios.get({
     method: 'GET',
     url: url,
     dataType: 'json',
@@ -19,8 +19,7 @@ export function getAsync (url:string) {
   //TODO add security here (if returned type is not a )
 }
 
-
-export function putAsync (url:string, data:Object) {
+export function putAsync(url: string, data: Object) {
   /* await axios.get({
       method: 'PUT',
       url: url,
@@ -28,10 +27,10 @@ export function putAsync (url:string, data:Object) {
       dataFilter: dataFilter,
   });
   */
-    return axios.put(url,data)
+  return axios.put(url, data)
 }
 
-export function postAsync (url:string, data:Object) {
+export function postAsync(url: string, data: Object) {
   /* await axios.get({
       method: 'POST',
       url: url,
@@ -39,5 +38,5 @@ export function postAsync (url:string, data:Object) {
       dataFilter: dataFilter,
   });
   */
-    return axios.post(url,data)
+  return axios.post(url, data)
 }

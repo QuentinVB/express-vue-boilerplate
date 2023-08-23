@@ -17,3 +17,4 @@ flowchart LR
 
 https://mermaid.js.org/intro/
 https://expressjs.com/fr/4x/api.html
+https://elijahmanor.com/blog/npm-precommit-scripts
