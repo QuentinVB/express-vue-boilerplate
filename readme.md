@@ -14,3 +14,6 @@ flowchart LR
     ApiRoutes -- Lie vers --> Controllers
     Controllers -- Utillise --> Model
 ```
+
+https://mermaid.js.org/intro/
+https://expressjs.com/fr/4x/api.html

@@ -5,11 +5,11 @@
  */
 require('dotenv').config();
 
-const app = require('./server/app');
+const app = require('./app');
 const debug = require('debug')();
 const http = require('http');
-const normalizePort = require('./server/middleware/httpPortNormaliser');
-const onError = require('./server/middleware/httpErrorHandler');
+const normalizePort = require('./middleware/httpPortNormaliser');
+const onError = require('./middleware/httpErrorHandler');
 
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
