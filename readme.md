@@ -23,3 +23,5 @@ https://expressjs.com/fr/4x/api.html
 https://elijahmanor.com/blog/npm-precommit-scripts
 
 DEBUG=*
+
+https://expressjs.com/en/resources/middleware/cors.html

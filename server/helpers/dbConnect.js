@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const mongoose = require("mongoose");
 
 // Set `strictQuery: false` to globally opt into filtering by properties that aren't in the schema

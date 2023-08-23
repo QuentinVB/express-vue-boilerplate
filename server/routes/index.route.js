@@ -25,7 +25,7 @@ if(isDev)
         .json({
             status:"pong",
             salt:randomUUID(),
-            timeStamp:Date.now()
+            timestamp:Date.now()
         });
     });
 }

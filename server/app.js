@@ -10,6 +10,7 @@ const logger = require("morgan");
 const compression = require("compression");
 const helmet = require("helmet");
 const RateLimit = require("express-rate-limit");
+const cors = require('cors');
 
 //modules
 const DBInit = require("./helpers/dbConnect");
@@ -26,21 +27,27 @@ const app = express();
 
 app.use(compression());
 
-//csp
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      "script-src": ["'self'", "code.jquery.com", "cdn.jsdelivr.net"],
-    },
-  })
-);
-//rate limiter
-const limiter = RateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 20,
-});
-// Apply rate limiter to all requests
-app.use(limiter);
+if (process.env.NODE_ENV !== "development") {
+  //csp
+  app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        "script-src": ["'self'", "code.jquery.com", "cdn.jsdelivr.net"],
+      },
+    })
+  );
+  //rate limiter
+  const limiter = RateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minute
+    max: 20,
+  });
+  // Apply rate limiter to all requests
+  app.use(limiter);
+} else {
+  console.warn("DEV Mode : CORS and CSP disabled")
+  //disable CORS and CSP
+  app.use(cors());
+}
 
 /**
  * Using express-session middleware for persistent user session. Be sure to

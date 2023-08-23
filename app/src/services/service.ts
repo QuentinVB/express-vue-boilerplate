@@ -1,4 +1,4 @@
-import { apiUrl } from '../constant'
+import { API_URL } from '../constants'
 
 /*
 import axios from 'axios';
@@ -11,8 +11,8 @@ if(token){
 */
 
 class Service {
-  forgeUrl(enpoint: String) {
-    return `${apiUrl}${enpoint}`
+  protected forgeUrl(enpoint: String) {
+    return `${API_URL}${enpoint}`
   }
 }
 

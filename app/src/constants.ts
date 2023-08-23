@@ -11,4 +11,4 @@ const prodConfig =
 //export const prodapi= 'http://les-planetes2kentin.fr/api'
 
 
-export const apiUrl = isDev ? devConfig.api : prodConfig.api
+export const API_URL = isDev ? devConfig.api : prodConfig.api
