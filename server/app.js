@@ -14,9 +14,10 @@ const cors = require('cors');
 
 //modules
 const DBInit = require("./helpers/dbConnect");
-const indexRouter = require("./routes/index.route");
-const authRouter = require("./routes/auth.route");
-const userRouter = require("./api/routes/user.route");
+const indexRouter = require("./routes/index.routes");
+const authRouter = require("./routes/auth.routes");
+const userRouter = require("./api/routes/user.routes");
+const postRouter = require("./api/routes/post.routes");
 
 // initialize mongoDB
 DBInit();
@@ -76,11 +77,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 //routers
+//TODO group into a index router ? 
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
 
 //API routes
 app.use("/user", userRouter);
+app.use("/post", postRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
