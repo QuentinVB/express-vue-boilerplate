@@ -17,6 +17,7 @@ const RateLimit = require("express-rate-limit");
 //modules
 const DBInit = require("./helpers/dbConnect");
 const indexRouter = require("./routes/index.route");
+const authRouter = require("./routes/auth.route");
 const userRouter = require("./api/routes/user.route");
 
 // initialize mongoDB
@@ -72,6 +73,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 //routers
 app.use("/", indexRouter);
+app.use("/auth", authRouter);
 
 //API routes
 app.use("/user", userRouter);
