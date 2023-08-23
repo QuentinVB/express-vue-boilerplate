@@ -1,6 +1,7 @@
 {
-  "name": "startrader-front",
-  "version": "0.0.0",
+  "name": "startrader-app",
+  "description": "front end of the startrader bootstrap project",
+  "author": "Quentin Vanbutsele",
   "private": true,
   "scripts": {
     "dev": "vite",

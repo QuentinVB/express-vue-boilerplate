@@ -15,7 +15,7 @@ defineProps<{
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 h1 {
   font-weight: 500;
   font-size: 2.6rem;
@@ -33,6 +33,7 @@ h3 {
 }
 
 @media (min-width: 1024px) {
+
   .greetings h1,
   .greetings h3 {
     text-align: left;
