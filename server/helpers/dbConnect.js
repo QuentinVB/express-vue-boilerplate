@@ -1,4 +1,5 @@
-// Import the mongoose module
+require('dotenv').config();
+
 const mongoose = require("mongoose");
 
 // Set `strictQuery: false` to globally opt into filtering by properties that aren't in the schema
@@ -7,10 +8,14 @@ const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 
 // Define the database URL to connect to.
-const mongoDB = "mongodb://127.0.0.1/my_database";
+const mongoDBUrl = process.env.MONGODBURL;
 
 // Wait for database to connect, logging an error if there is a problem
-main().catch((err) => console.log(err));
-async function main() {
-  await mongoose.connect(mongoDB);
+function DBInit()
+{
+  mongoose.connect(mongoDBUrl, {useNewUrlParser: true,})
+    .then(()=>console.log("MongoDB Sucessfully connected !"))
+    .catch((err) => console.log(err));
 }
+
+module.exports = DBInit;

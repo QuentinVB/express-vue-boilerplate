@@ -3,12 +3,18 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-    id:Schema.Types.ObjectId,
   userName: String,
   passwordHash: String,
 
   accountCreation: Date,
-  accountLasConnection: Date,
+  accountLastConnection: Date,
+},{
+  timestamps: true
+});
+
+UserSchema.pre('save', function(next) {
+  this.updated_at = Date.now();
+  next();
 });
 
 const UserModel = mongoose.model("User", UserSchema);
