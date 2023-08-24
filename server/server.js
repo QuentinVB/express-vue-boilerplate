@@ -18,8 +18,8 @@ const server = http.createServer(app);
 server.listen(port);
 const adress = server?.address()?.address ?? "localhost";
 console.log(`Server started on ${adress}:${port}, with ${process.env.NODE_ENV} mode`)
-//server.on('error', onError);
-//server.on('listening', onListening);
+server.on('error', onError);
+server.on('listening', onListening);
 
 /**
  * Event listener for HTTP server "listening" event.

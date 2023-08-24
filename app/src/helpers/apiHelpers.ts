@@ -52,5 +52,5 @@ export function postAsync(url: string, data: Object) {
       dataFilter: dataFilter,
   });
   */
-  return axios.post(url, data,getAxiosConfig())
+  return axios.post(url, data, getAxiosConfig())
 }

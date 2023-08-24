@@ -8,8 +8,9 @@ const PostModel = require("../models/post.model");
 //CREATE
 const createPost = asyncHandler(async (req, res, next) => {
   const post  = req.body.Post;
+  const userId = req.auth.userId;
 
-  let newPost = new PostModel({message:post.message});
+  let newPost = new PostModel({message:post.message,userId:userId});
   newPost = await newPost.save();
   newPost = newPost.toObject();
 

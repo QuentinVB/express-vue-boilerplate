@@ -33,7 +33,7 @@ class AuthServices extends Service {
 
         const splitedJWT = res.data.token.split('.')
         //should be length 2
-        console.log(splitedJWT.length === 2)
+        //console.log(splitedJWT.length === 2)
         const header = splitedJWT[0]
         const payload = splitedJWT[1]
         this.JWT_header = header
@@ -45,8 +45,6 @@ class AuthServices extends Service {
 
         //signature is stored in session cookie
 
-        //then store localy
-        console.log(this.IsLogged)
       })
       .catch((err) => {
         console.error(err)
@@ -54,7 +52,10 @@ class AuthServices extends Service {
   }
 
   public logout() {
-    //TODO
+    localStorage.removeItem('JWT_header')
+    localStorage.removeItem('JWT_payload')
+
+    return getAsync(this.forgeUrl(`${endpoint}/logout`));
   }
 }
 

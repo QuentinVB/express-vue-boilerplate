@@ -5,6 +5,8 @@ const Schema = mongoose.Schema;
 const PostSchema = new Schema({
   message: String,
 
+  userId:{type: Schema.Types.ObjectId, ref: 'User'},
+
   accountCreation: Date,
   accountLastConnection: Date,
 },{

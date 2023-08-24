@@ -47,7 +47,12 @@ if (process.env.NODE_ENV !== "development") {
 } else {
   console.warn("DEV Mode : CORS and CSP disabled")
   //disable CORS and CSP
-  app.use(cors());
+  const corsOptions ={
+    origin: [`http://localhost:${process.env.PORTSERVER}`,process.env.APP_REDIRECT],
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+  }
+  app.use(cors(corsOptions));
 }
 
 /**

@@ -13,13 +13,26 @@ function login() {
         userName: userName.value,
         password: password.value,
     };
-    AuthServices.login(credentials).then(_ => _);
+    AuthServices.login(credentials).then(_ => {
+        console.info("User successfully logged");
+    });
+}
+
+function logout() {
+
+    AuthServices.logout().then(_ => {
+        console.info("Successfully logged out");
+    });
 }
 
 </script>
 
 <template>
-    <div>
+    <div v-if="AuthServices.IsLogged">
+        <p>Already logged.</p>
+        <p><button v-on:click="logout">LogOut</button></p>
+    </div>
+    <div v-else>
         <h1>LOGIN</h1>
         <form @submit.prevent="login">
             <input v-model="userName" placeholder="username" />

@@ -1,5 +1,4 @@
 # server specific Gitignore
 
 node_modules/
-.env.dev
-.env.prod
+*.env
