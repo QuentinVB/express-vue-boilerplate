@@ -37,9 +37,7 @@ const putPost = asyncHandler(async (req, res, next) => {
   const { ...post } = req.body.Post;
   const id = req.params.id;
 
-
   let updatedPost = await PostModel.findByIdAndUpdate(id, post, {});
-
 
   res.status(200).json(updatedPost);
 });

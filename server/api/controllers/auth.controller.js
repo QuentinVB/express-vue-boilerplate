@@ -2,9 +2,11 @@ const UserModel = require("../models/user.model");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { createUser } = require("./user.controller");
+
 
 const register = asyncHandler(async (req, res, next) => {
-  res.redirect("/user");
+  return createUser(req,res,next)
 });
 
 const login = asyncHandler(async (req, res, next) => {

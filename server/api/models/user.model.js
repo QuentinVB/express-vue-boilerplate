@@ -2,19 +2,22 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
-  userName: String,
-  email:String,
-  passwordHash: String,
-  credits:Number,
+const UserSchema = new Schema(
+  {
+    userName: String,
+    userEmail: String,
+    passwordHash: String,
+    credits: { type: Number, default: 1000 },
 
-  accountCreation: Date,
-  accountLastConnection: Date,
-},{
-  timestamps: true
-});
+    accountCreation: Date,
+    accountLastConnection: Date,
+  },
+  {
+    timestamps: true,
+  }
+);
 
-UserSchema.pre('save', function(next) {
+UserSchema.pre("save", function (next) {
   this.updated_at = Date.now();
   next();
 });

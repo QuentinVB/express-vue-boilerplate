@@ -1,0 +1,68 @@
+<script setup lang="ts">
+//TODO switch to Composition API instead of Option API
+//
+import router from '@/routes';
+import AuthServices from '@/services/auth'
+import { ref } from 'vue'
+
+const userName = ref("");
+const userEmail = ref("");
+const password = ref("");
+const passwordConfirm = ref("");
+
+function register() {
+    const credentials = {
+        userName: userName.value,
+        userEmail: userEmail.value,
+        password: password.value,
+    };
+
+    AuthServices.register(credentials).then(_ => {
+        console.info("User successfully registered");
+    });
+
+    if (!AuthServices.IsLogged) {
+        router.push({ name: 'login' });
+    }
+}
+
+function logout() {
+
+    AuthServices.logout().then(_ => {
+        console.info("Successfully logged out");
+    });
+}
+
+</script>
+
+<template>
+    <div v-if="AuthServices.IsLogged">
+        <p>Already logged.</p>
+        <p><button v-on:click="logout">LogOut</button></p>
+    </div>
+    <div v-else>
+        <h1>Register</h1>
+        <form @submit.prevent="register">
+            <p>
+                <label>Nom d'user</label><input v-model="userName" placeholder="username" />
+            </p>
+            <p>
+                <label>Email</label><input v-model="userEmail" placeholder="userEmail" type="email" />
+            </p>
+            <p>
+                <label>Mot de passe</label><input v-model="password" placeholder="password" type="password" />
+            </p>
+            <p>
+                <label>Confirmation</label><input v-model="passwordConfirm" placeholder="confirm password"
+                    type="password" />
+            </p>
+            <p v-if="password.length > 0 && passwordConfirm.length > 0 && passwordConfirm !== password">
+                Les 2 mot de passes ne sont pas valides
+            </p>
+
+            <p>
+                <button type="submit">Register</button>
+            </p>
+        </form>
+    </div>
+</template>

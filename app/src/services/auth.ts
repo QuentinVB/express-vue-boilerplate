@@ -1,5 +1,5 @@
 import { getAsync, postAsync } from '../helpers/apiHelpers'
-import { type UserCredentials } from '../models/User'
+import { type UserCreation, type UserCredentials } from '../models/User'
 import Service from './service'
 
 const endpoint = 'auth'
@@ -21,35 +21,35 @@ class AuthServices extends Service {
     return !!this.USERID && !!this.JWT_header && !!this.JWT_payload
   }
 
-  public register() {
-    //TODO
+  public async register(credentials: UserCreation) {
+    try {
+      const _ = await postAsync(this.forgeUrl(`${endpoint}/register`), credentials)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   public async login(credentials: UserCredentials) {
-    return postAsync(this.forgeUrl(`${endpoint}/login`), credentials)
-      .then((res) => {
-        //TODO : check if status 200
-        this.USERID = res.data.userId
-        localStorage.setItem('userId', res.data.userId)
+    try {
+      const res = await postAsync(this.forgeUrl(`${endpoint}/login`), credentials)
+      //TODO : check if status 200
+      this.USERID = res.data.userId
+      localStorage.setItem('userId', res.data.userId)
 
-        const splitedJWT = res.data.token.split('.')
-        //should be length 2
-        //console.log(splitedJWT.length === 2)
-        const header = splitedJWT[0]
-        const payload = splitedJWT[1]
-        this.JWT_header = header
-        this.JWT_payload = payload
+      const splitedJWT = res.data.token.split('.')
+      //should be length 2
+      //console.log(splitedJWT.length === 2)
+      const header = splitedJWT[0]
+      const payload = splitedJWT[1]
+      this.JWT_header = header
+      this.JWT_payload = payload
 
-        //store header and payload to LocalStorage
-        localStorage.setItem('JWT_header', header)
-        localStorage.setItem('JWT_payload', payload)
-
-        //signature is stored in session cookie
-
-      })
-      .catch((err) => {
-        console.error(err)
-      })
+      //store header and payload to LocalStorage
+      localStorage.setItem('JWT_header', header)
+      localStorage.setItem('JWT_payload', payload)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   public logout() {

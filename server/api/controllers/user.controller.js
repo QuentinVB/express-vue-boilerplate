@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
+const SALTROUND = 10;
 
 const UserModel = require("../models/user.model");
 
@@ -7,9 +8,14 @@ const UserModel = require("../models/user.model");
 //TODO : remove un-necessary data to front
 //CREATE
 const createUser = asyncHandler(async (req, res, next) => {
-  const { password, ...user } = req.body.user;
+  const { password, ...user } = req.body;
 
-  const hash = await bcrypt.hash(password, 10);
+  userInDB = await UserModel.findOne({ userName: user.userName });
+  if (userInDB) {
+    return res.status(401).json({ error: "Utilisateur déja existant !" });
+  }
+
+  const hash = await bcrypt.hash(password, SALTROUND);
   user.passwordHash = hash;
 
   let newUser = new UserModel({ ...user });

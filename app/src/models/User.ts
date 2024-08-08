@@ -19,3 +19,8 @@ export default class User {
     this.id = id
   }
 }
+
+export interface UserCreation extends UserCredentials
+{
+  email?: String
+}

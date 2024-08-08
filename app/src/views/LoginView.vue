@@ -35,13 +35,15 @@ function logout() {
     <div v-else>
         <h1>LOGIN</h1>
         <form @submit.prevent="login">
-            <input v-model="userName" placeholder="username" />
-            <br />
-            <br />
-            <input v-model="password" placeholder="password" type="password" />
-            <br />
-            <br />
-            <button type="submit">Login</button>
+            <p>
+                <input v-model="userName" placeholder="username" />
+            </p>
+            <p>
+                <input v-model="password" placeholder="password" type="password" />
+            </p>
+            <p>
+                <button type="submit">Login</button>
+            </p>
         </form>
     </div>
 </template>
