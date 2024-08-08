@@ -6,10 +6,10 @@ const endpoint = 'post'
 
 class PostApiServices extends Service {
   getPostsAsync() {
-    return getAsync(this.forgeUrl(`${endpoint}`))
+    return getAsync<Post[]>(this.forgeUrl(`${endpoint}`))
   }
   getPostByIdAsync(uuid: String) {
-    return getAsync(this.forgeUrl(`${endpoint}/${uuid}`))
+    return getAsync<Post>(this.forgeUrl(`${endpoint}/${uuid}`))
   }
   createPostAsync(Post: Post) {
     return postAsync(this.forgeUrl(`${endpoint}`), { Post: Post })

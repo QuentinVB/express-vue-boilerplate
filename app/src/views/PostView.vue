@@ -14,8 +14,12 @@ const IsLogged = ref(AuthServices.IsLogged);
 const message = ref("");
 let posts = ref();
 
+async function updatePosts() {
+  posts.value = (await PostApiServices.getPostsAsync()).data;
+}
+
 onMounted(async () => {
-  posts.value = await (await PostApiServices.getPostsAsync()).data;
+  updatePosts();
 })
 
 
@@ -24,9 +28,9 @@ function SendMessage() {
   const post = new Post("");
   post.message = message.value;
   PostApiServices.createPostAsync(post)
-    .then((res: any) => {
-      console.log(res);
+    .then(_ => {
       message.value = "";
+      updatePosts();
     })
     .catch((err: any) => {
       console.error(err);
@@ -34,6 +38,8 @@ function SendMessage() {
 }
 
 //  name: 'PostView',
+
+
 
 </script>
 

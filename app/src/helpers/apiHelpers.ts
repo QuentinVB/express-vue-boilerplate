@@ -21,7 +21,7 @@ function getAxiosConfig()
 }
 
 
-export function getAsync(url: string) {
+export function getAsync<T>(url: string) {
   /* await axios.get({
     method: 'GET',
     url: url,
@@ -29,7 +29,7 @@ export function getAsync(url: string) {
     dataFilter: dataFilter,
 });
 */
-  return axios.get(url,getAxiosConfig())
+  return axios.get<T>(url,getAxiosConfig())
   //TODO add security here (if returned type is not a )
 }
 

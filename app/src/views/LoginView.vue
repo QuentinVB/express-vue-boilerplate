@@ -1,6 +1,7 @@
 <script setup lang="ts">
 //TODO switch to Composition API instead of Option API
 //
+import router from '@/routes';
 import AuthServices from '@/services/auth'
 import { ref } from 'vue'
 
@@ -15,6 +16,8 @@ function login() {
     };
     AuthServices.login(credentials).then(_ => {
         console.info("User successfully logged");
+        router.push({ name: 'post' });
+
     });
 }
 
