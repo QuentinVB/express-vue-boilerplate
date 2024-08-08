@@ -1,3 +1,4 @@
+import router from '@/routes'
 import { getAsync, postAsync } from '../helpers/apiHelpers'
 import { type UserCreation, type UserCredentials } from '../models/User'
 import Service from './service'
@@ -5,19 +6,19 @@ import Service from './service'
 const endpoint = 'auth'
 
 class AuthServices extends Service {
-  private USERID = localStorage.getItem('userId')
-  private JWT_header = localStorage.getItem('JWT_header')
-  private JWT_payload = localStorage.getItem('JWT_payload')
+  private _USERID = localStorage.getItem('userId')
+  private _JWT_header = localStorage.getItem('JWT_header')
+  private _JWT_payload = localStorage.getItem('JWT_payload')
 
   public get JWT_TOKEN(): string {
-    return `${this.JWT_header}.${this.JWT_payload}`
+    return `${this._JWT_header}.${this._JWT_payload}`
   }
   public get USER_ID(): string | null {
-    return this.USERID
+    return this._USERID
   }
 
   public get IsLogged(): boolean {
-    return !!this.USERID && !!this.JWT_header && !!this.JWT_payload
+    return !!this._USERID && !!this._JWT_header && !!this._JWT_payload
   }
 
   public async register(credentials: UserCreation) {
@@ -32,7 +33,7 @@ class AuthServices extends Service {
     try {
       const res = await postAsync(this.forgeUrl(`${endpoint}/login`), credentials)
       //TODO : check if status 200
-      this.USERID = res.data.userId
+      this._USERID = res.data.userId
       localStorage.setItem('userId', res.data.userId)
 
       const splitedJWT = res.data.token.split('.')
@@ -40,8 +41,8 @@ class AuthServices extends Service {
       //console.log(splitedJWT.length === 2)
       const header = splitedJWT[0]
       const payload = splitedJWT[1]
-      this.JWT_header = header
-      this.JWT_payload = payload
+      this._JWT_header = header
+      this._JWT_payload = payload
 
       //store header and payload to LocalStorage
       localStorage.setItem('JWT_header', header)
@@ -51,11 +52,14 @@ class AuthServices extends Service {
     }
   }
 
-  public logout() {
-    localStorage.removeItem('JWT_header')
-    localStorage.removeItem('JWT_payload')
-
-    return getAsync(this.forgeUrl(`${endpoint}/logout`));
+  public async logout() {
+    await getAsync(this.forgeUrl(`${endpoint}/logout`));
+    localStorage.removeItem('JWT_header');
+    localStorage.removeItem('JWT_payload');
+    this._JWT_header = null;
+    this._JWT_payload = null;
+    this._USERID = null;
+    router.push({ name: 'home' });
   }
 }
 

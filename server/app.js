@@ -18,8 +18,7 @@ console.log("Loading server modules...")
 const DBInit = require("./helpers/dbConnect");
 const indexRouter = require("./routes/index.routes");
 const authRouter = require("./routes/auth.routes");
-const userRouter = require("./api/routes/user.routes");
-const postRouter = require("./api/routes/post.routes");
+const apiRouter = require("./routes/api.routes");
 
 
 // initialize mongoDB
@@ -89,8 +88,7 @@ app.use("/", indexRouter);
 app.use("/auth", authRouter);
 
 //API routes
-app.use("/user", userRouter);
-app.use("/post", postRouter);
+app.use("/api", apiRouter);
 
 //Static public
 app.use(express.static(path.join(__dirname, "../dist")));

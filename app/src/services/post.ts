@@ -2,7 +2,7 @@ import { getAsync, putAsync, postAsync } from '../helpers/apiHelpers'
 import Post from '../models/Post'
 import Service from './service'
 
-const endpoint = 'post'
+const endpoint = 'api/post'
 
 class PostApiServices extends Service {
   getPostsAsync() {
