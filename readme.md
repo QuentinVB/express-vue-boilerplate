@@ -16,7 +16,8 @@ flowchart LR
 ```
 
 TODO : 
-- [ ] prod/dev mode
+- [x] prod/dev mode
+- [ ] Fix Express memory leak in production mod using mongoDB https://stackoverflow.com/a/47383274
 
 https://mermaid.js.org/intro/
 https://expressjs.com/fr/4x/api.html

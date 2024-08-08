@@ -27,8 +27,8 @@ DBInit();
 
 // initialize and configure express
 const app = express();
-//TODO disable when in dev
 
+//TODO disable when in dev
 app.use(compression());
 
 if (process.env.NODE_ENV !== "development") {
@@ -82,7 +82,6 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
 
 //routers
 //TODO group into an index router later 
@@ -92,6 +91,9 @@ app.use("/auth", authRouter);
 //API routes
 app.use("/user", userRouter);
 app.use("/post", postRouter);
+
+//Static public
+app.use(express.static(path.join(__dirname, "../dist")));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

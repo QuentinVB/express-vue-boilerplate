@@ -4,16 +4,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="icon" href="/img/favicon.ico" />
     <title>Vite App</title>
   </head>
   <body>
     <div id="app"></div>
-    {{#if isDev}}
     <script type="module" src="{{devUrl}}src/main.ts"></script>
-    {{else}}
-    <script type="module" src="dist/main.ts"></script>
-    {{/if}}
   </body>
 </html>

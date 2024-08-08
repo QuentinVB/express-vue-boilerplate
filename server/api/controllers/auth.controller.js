@@ -25,7 +25,7 @@ const login = asyncHandler(async (req, res, next) => {
   const JWT_TokenSplited = jwt
     .sign(
       { userId: user._id },
-      process.env.JWT_SECRET_TOKEN, // le token est signé avec le secret dans notre fichier .env et le token expire dans une durée de 24h
+      process.env.JWT_SECRET_TOKEN, 
       { expiresIn: "24h" }
     )
     .split(".");
