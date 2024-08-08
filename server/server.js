@@ -12,7 +12,6 @@ const onError = require('./middleware/httpErrorHandler');
 
 const port = normalizePort(process.env.PORTSERVER || '3000');
 app.set('port', port);
-
 const server = http.createServer(app);
 
 server.listen(port);

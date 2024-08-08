@@ -7,7 +7,7 @@
     "mongodb.mongodb-vscode",
     "ritwickdey.liveserver",
     "esbenp.prettier-vscode",
-    "Vue.volar",
+    "vue.volar",
     "Vue.vscode-typescript-vue-plugin",
 	"syler.sass-indented"
   ],

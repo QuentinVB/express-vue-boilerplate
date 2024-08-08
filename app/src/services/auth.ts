@@ -5,6 +5,7 @@ import Service from './service'
 const endpoint = 'auth'
 
 class AuthServices extends Service {
+  //HACK : danger should not store token in localstorage
   private USERID = localStorage.getItem('userId')
   private JWT_header = localStorage.getItem('JWT_header')
   private JWT_payload = localStorage.getItem('JWT_payload')

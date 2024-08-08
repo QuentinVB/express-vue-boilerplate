@@ -12,12 +12,15 @@ const helmet = require("helmet");
 const RateLimit = require("express-rate-limit");
 const cors = require('cors');
 
+console.log("Loading server modules...")
+
 //modules
 const DBInit = require("./helpers/dbConnect");
 const indexRouter = require("./routes/index.routes");
 const authRouter = require("./routes/auth.routes");
 const userRouter = require("./api/routes/user.routes");
 const postRouter = require("./api/routes/post.routes");
+
 
 // initialize mongoDB
 DBInit();
@@ -82,7 +85,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 //routers
-//TODO group into a index router ? 
+//TODO group into an index router later 
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
 
