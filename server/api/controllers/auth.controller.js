@@ -35,7 +35,7 @@ const login = asyncHandler(async (req, res, next) => {
   const cookieOptions = {
     maxAge: 1000 * 60 * 15, //15 min
     httpOnly: true,
-    sameSite: process.env.NODE_ENV === "development" ? "none" : "strict",
+    sameSite: "strict",//process.env.NODE_ENV === "development" ? "none" : 
     secure: true,
   };
   //signature is stored into a cookie, the header and payload are send into the body

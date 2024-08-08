@@ -1,6 +1,4 @@
 const asyncHandler = require("express-async-handler");
-const bcrypt = require("bcrypt");
-
 const PostModel = require("../models/post.model");
 
 //TODO : split controller and post service/DAL (3 concern here : request deconstruction, response building and DB access)
@@ -19,9 +17,25 @@ const createPost = asyncHandler(async (req, res, next) => {
 
 //READ
 const getAllPosts = asyncHandler(async (req, res, next) => {
-  let posts = await PostModel.find({}).exec();
+  let posts = await PostModel
+  .find()
+  .populate(
+    {
+      path: 'userId',
+      select: 'userName' 
+    }
+  )
+  .exec();
 
-  res.status(200).json(posts);
+  const formattedPosts = posts.map(post => ({
+    ...post.toObject(),
+    user: {
+      _id: post.userId._id,
+      name: post.userId.userName
+    }
+  }));
+
+  res.status(200).json(formattedPosts);
 });
 
 const getPostById = asyncHandler(async (req, res, next) => {

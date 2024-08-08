@@ -8,10 +8,10 @@ const auth = require("../../middleware/auth");
 router.post('/',auth, postController.createPost);
 
 //GET All
-router.get('/',auth, postController.getAllPosts);
+router.get('/',postController.getAllPosts);
 
 //GET by id
-router.get('/:id',auth, postController.getPostById);
+router.get('/:id',postController.getPostById);
 
 //PUT post instead
 router.put('/:id',auth, postController.putPost);

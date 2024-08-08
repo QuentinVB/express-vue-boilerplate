@@ -5,10 +5,19 @@ import PostApiServices from '@/services/post'
 import Post from '@/models/Post'
 import AuthServices from '@/services/auth'
 
+import { onMounted } from 'vue';
+
+
 import { ref } from 'vue'
 
 const IsLogged = ref(AuthServices.IsLogged);
 const message = ref("");
+let posts = ref();
+
+onMounted(async () => {
+  posts.value = await (await PostApiServices.getPostsAsync()).data;
+})
+
 
 
 function SendMessage() {
@@ -36,6 +45,10 @@ function SendMessage() {
     <textarea v-model="message" placeholder="add multiple lines"></textarea>
     <button type="button" @click="SendMessage">Send Message</button>
   </div>
+  <div v-for="post in posts" :key="post.id">
+    {{ post.message }}
+  </div>
+
 </template>
 
 <style>
