@@ -1,3 +1,4 @@
+import router from '@/routes';
 import authService from '@/services/auth';
 import axios from 'axios'
 
@@ -30,6 +31,13 @@ export function getAsync<T>(url: string) {
 });
 */
   return axios.get<T>(url,getAxiosConfig())
+  .catch(e=>{
+    if(e.response.status === 401)
+    {
+      router.push({ name: 'login' });
+    }
+    throw e;
+  })
   //TODO add security here (if returned type is not a )
 }
 
@@ -42,6 +50,13 @@ export function putAsync(url: string, data: Object) {
   });
   */
   return axios.put(url, data,getAxiosConfig())
+  .catch(e=>{
+    if(e.response.status === 401)
+    {
+      router.push({ name: 'login' });
+    }
+    throw e;
+  })
 }
 
 export function postAsync(url: string, data: Object) {
@@ -53,4 +68,11 @@ export function postAsync(url: string, data: Object) {
   });
   */
   return axios.post(url, data, getAxiosConfig())
+  .catch(e=>{
+    if(e.response.status === 401)
+    {
+      router.push({ name: 'login' });
+    }
+    throw e;
+  })
 }

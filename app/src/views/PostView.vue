@@ -1,14 +1,13 @@
 <script setup lang="ts">
 //TODO switch to Composition API instead of Option API
 //
+import { onMounted } from 'vue';
+import { ref } from 'vue'
+
 import PostApiServices from '@/services/post'
 import Post from '@/models/Post'
 import AuthServices from '@/services/auth'
 
-import { onMounted } from 'vue';
-
-
-import { ref } from 'vue'
 
 const IsLogged = ref(AuthServices.IsLogged);
 const message = ref("");
@@ -44,25 +43,37 @@ function SendMessage() {
 </script>
 
 <template>
-  <p v-if="IsLogged">Logged</p>
-  <p v-else>Not logged</p>
-  <div class="message">
-    <p style="white-space: pre-line;">{{ message }}</p>
-    <textarea v-model="message" placeholder="add multiple lines"></textarea>
-    <button type="button" @click="SendMessage">Send Message</button>
-  </div>
-  <div v-for="post in posts" :key="post.id">
-    {{ post.message }}
+
+  <div class="content">
+    <p v-if="IsLogged">Logged</p>
+    <p v-else>Not logged</p>
+
+    <div v-if="IsLogged" class="message">
+      <textarea v-model="message" placeholder="add multiple lines"></textarea>
+      <button type="button" @click="SendMessage">Send Message</button>
+    </div>
+
+    <div class="messages">
+      <p v-for="post in posts" :key="post.id">
+        {{ post.user.name }} : {{ post.message }}
+      </p>
+    </div>
   </div>
 
 </template>
 
 <style>
-@media (min-width: 1024px) {
-  .message {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
+.content {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.messages {
+  display: flex;
+  justify-content: start;
+  flex-direction: column-reverse;
 }
 </style>

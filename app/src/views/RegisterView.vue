@@ -27,10 +27,7 @@ function register() {
 }
 
 function logout() {
-
-    AuthServices.logout().then(_ => {
-        console.info("Successfully logged out");
-    });
+    AuthServices.logout();
 }
 
 </script>

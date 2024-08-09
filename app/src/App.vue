@@ -5,7 +5,9 @@ import AuthServices from '@/services/auth'
 
 import { ref } from 'vue'
 
-let isLogged = ref(AuthServices.IsLogged);
+const IsLogged = ref(AuthServices.IsLogged);
+
+
 
 </script>
 
@@ -20,9 +22,9 @@ let isLogged = ref(AuthServices.IsLogged);
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/ping">Ping</RouterLink>
         <RouterLink to="/post">Post</RouterLink>
-        <RouterLink v-if="isLogged" to="/logout">Logout</RouterLink>
-        <RouterLink v-if="!isLogged" to="/login">Login</RouterLink>
-        <RouterLink v-if="!isLogged" to="/register">Register</RouterLink>
+        <RouterLink v-if="IsLogged" to="/logout">Logout</RouterLink>
+        <RouterLink v-if="!IsLogged" to="/login">Login</RouterLink>
+        <RouterLink v-if="!IsLogged" to="/register">Register</RouterLink>
       </nav>
     </div>
   </header>

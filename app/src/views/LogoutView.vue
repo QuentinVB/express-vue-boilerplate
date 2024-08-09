@@ -4,9 +4,10 @@
 import AuthServices from '@/services/auth'
 function logout() {
 
-    AuthServices.logout().then(_ => {
-        console.info("Successfully logged out");
-    });
+    AuthServices.logout()
+        .then(_ => {
+            console.info("Successfully logged out");
+        });
 }
 
 </script>

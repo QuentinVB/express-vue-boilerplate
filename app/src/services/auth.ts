@@ -53,14 +53,21 @@ class AuthServices extends Service {
     }
   }
 
-  public async logout() {
-    await getAsync(this.forgeUrl(`${endpoint}/logout`));
+  public async logout(withServerCall=true) {
+    if(withServerCall){
+      try {
+        await getAsync(this.forgeUrl(`${endpoint}/logout`));
+      } catch (error) {
+        console.info("Already logged out")
+      }
+    }
     localStorage.removeItem('JWT_header');
     localStorage.removeItem('JWT_payload');
     this._JWT_header = null;
     this._JWT_payload = null;
     this._USERID = null;
     router.push({ name: 'home' });
+    console.info("Successfully logged out");
   }
 }
 
