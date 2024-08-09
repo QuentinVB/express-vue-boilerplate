@@ -10,7 +10,8 @@ router.get("/", async function (req, res, next) {
   }
   else
   {
-    req.next()
+    req.next();
+    //req.sendFile(path.join(__dirname, "../../dist/index.html"))
   }
 });
 
@@ -20,7 +21,7 @@ if (isDev) {
     res.redirect(process.env.APP_REDIRECT + req.originalUrl);
   });
 
-  router.get("/ping", async function (req, res, next) {
+  router.get("/debug/ping", async function (req, res, next) {
     console.log("Recieved ping");
     res.status(200).json({
       status: "pong",

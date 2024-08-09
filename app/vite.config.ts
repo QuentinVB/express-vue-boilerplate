@@ -18,6 +18,7 @@ export default defineConfig({
     outDir: '../dist',
     emptyOutDir:true,
     cssMinify:true,
-    sourcemap:false
+    sourcemap:false,
+    manifest: true,
   }
 })
