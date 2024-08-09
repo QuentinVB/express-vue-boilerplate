@@ -7,6 +7,7 @@ import { ref } from 'vue'
 
 const userName = ref("");
 const password = ref("");
+const errormsg = ref("");
 
 
 function login() {
@@ -14,11 +15,14 @@ function login() {
         userName: userName.value,
         password: password.value,
     };
-    AuthServices.login(credentials).then(_ => {
-        console.info("User successfully logged");
-        router.push({ name: 'post' });
-
-    });
+    AuthServices.login(credentials)
+        .then(_ => {
+            console.info("User successfully logged");
+            router.push({ name: 'post' });
+        })
+        .catch(e => {
+            errormsg.value = e.response.data.error;
+        })
 }
 
 function logout() {
@@ -38,6 +42,7 @@ function logout() {
     <div v-else>
         <h1>LOGIN</h1>
         <form @submit.prevent="login">
+            <p>{{ errormsg }}</p>
             <p>
                 <input v-model="userName" placeholder="username" />
             </p>

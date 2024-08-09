@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import AuthServices from '@/services/auth'
+
+import { ref } from 'vue'
+
+let isLogged = ref(AuthServices.IsLogged);
+
 </script>
 
 <template>
@@ -9,14 +15,14 @@ import HelloWorld from './components/HelloWorld.vue'
 
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
-
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/ping">Ping</RouterLink>
         <RouterLink to="/post">Post</RouterLink>
-        <RouterLink to="/login">Login</RouterLink>
-        <RouterLink to="/register">Register</RouterLink>
+        <RouterLink v-if="isLogged" to="/logout">Logout</RouterLink>
+        <RouterLink v-if="!isLogged" to="/login">Login</RouterLink>
+        <RouterLink v-if="!isLogged" to="/register">Register</RouterLink>
       </nav>
     </div>
   </header>

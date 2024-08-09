@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema(
   {
+    accountConfirmed:{type:Boolean, default:false},
     userName: String,
     userEmail: String,
     passwordHash: String,

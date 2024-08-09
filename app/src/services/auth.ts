@@ -49,6 +49,7 @@ class AuthServices extends Service {
       localStorage.setItem('JWT_payload', payload)
     } catch (err) {
       console.error(err)
+      throw err;
     }
   }
 

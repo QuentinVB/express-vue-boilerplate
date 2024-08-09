@@ -1,5 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
+const {sendEmailConfirm} = require("../../services/emailer.js")
+const {confirmKeyGenerator}= require("../../helpers/confirmKey.js")
 const SALTROUND = 10;
 
 const UserModel = require("../models/user.model");
@@ -21,10 +23,15 @@ const createUser = asyncHandler(async (req, res, next) => {
   let newUser = new UserModel({ ...user });
   newUser = await newUser.save();
 
-  newUser = newUser.toObject();
-  delete newUser.passwordHash;
+  newUserObject = newUser.toObject();
+  delete newUserObject.passwordHash;
 
-  res.status(201).json(newUser);
+  console.log(newUser.id)
+
+  const key = await confirmKeyGenerator(newUser.id,newUser.userName,newUser.userEmail);
+  await sendEmailConfirm(newUser.userEmail,newUser.id,key)
+
+  res.status(201).json(newUserObject);
 });
 
 //READ

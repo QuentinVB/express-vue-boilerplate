@@ -3,7 +3,7 @@ import Service from './service'
 import axios from 'axios'
 
 
-const endpoint = '/debug'
+const endpoint = 'debug'
 
 export interface Ping {status:string,salt:string,timestamp:number}
 

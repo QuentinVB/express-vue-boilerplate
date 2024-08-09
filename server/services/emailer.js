@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 const Handlebars = require("handlebars");
 const path = require("path");
-const fs = require("fs");
+const fs = require("fs/promises");
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -28,7 +28,6 @@ function sendEmail(to, subject, html) {
     subject: subject,
     html: html,
   };
-
   transporter.sendMail(mailOptions, function (err, info) {
     if (err) {
       console.error("Error sending email:", err);
@@ -38,8 +37,8 @@ function sendEmail(to, subject, html) {
   });
 }
 
-function sendEmailConfirm(to, key) {
-  const file = fs.readFileSync(
+async function sendEmailConfirm(to, userid, key) {
+  const file = await fs.readFile(
     path.join(__dirname, "../templates/email-confirm.hbs"),
     "utf-8"
   );
@@ -49,7 +48,7 @@ function sendEmailConfirm(to, key) {
     //TODO : store devdomain elsewhere
     domain = "http://localhost";
   }
-  url = `${domain}:${process.env.PORTSERVER}/confirm?key=${encodeURI(key)}`;
+  url = `${domain}:${process.env.PORTSERVER}/auth/confirm?id=${encodeURI(userid)}&key=${encodeURI(key)}`;
   const html = template({ url });
   sendEmail(to, "Confirmation de l'adresse email", html);
 }
