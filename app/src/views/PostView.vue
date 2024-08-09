@@ -6,10 +6,9 @@ import { ref } from 'vue'
 
 import PostApiServices from '@/services/post'
 import Post from '@/models/Post'
-import AuthServices from '@/services/auth'
+import { useUserStore } from '@/stores/user'
+const userStore = useUserStore()
 
-
-const IsLogged = ref(AuthServices.IsLogged);
 const message = ref("");
 let posts = ref();
 
@@ -20,8 +19,6 @@ async function updatePosts() {
 onMounted(async () => {
   updatePosts();
 })
-
-
 
 function SendMessage() {
   const post = new Post("");
@@ -35,20 +32,15 @@ function SendMessage() {
       console.error(err);
     })
 }
-
-//  name: 'PostView',
-
-
-
 </script>
 
 <template>
 
   <div class="content">
-    <p v-if="IsLogged">Logged</p>
+    <p v-if="userStore.IsLogged">Logged</p>
     <p v-else>Not logged</p>
 
-    <div v-if="IsLogged" class="message">
+    <div v-if="userStore.IsLogged" class="message">
       <textarea v-model="message" placeholder="add multiple lines"></textarea>
       <button type="button" @click="SendMessage">Send Message</button>
     </div>

@@ -1,14 +1,8 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-import AuthServices from '@/services/auth'
-
-import { ref } from 'vue'
-
-const IsLogged = ref(AuthServices.IsLogged);
-
-
-
+import { useUserStore } from '@/stores/user'
+const userStore = useUserStore()
 </script>
 
 <template>
@@ -22,9 +16,9 @@ const IsLogged = ref(AuthServices.IsLogged);
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/ping">Ping</RouterLink>
         <RouterLink to="/post">Post</RouterLink>
-        <RouterLink v-if="IsLogged" to="/logout">Logout</RouterLink>
-        <RouterLink v-if="!IsLogged" to="/login">Login</RouterLink>
-        <RouterLink v-if="!IsLogged" to="/register">Register</RouterLink>
+        <RouterLink v-if="userStore.IsLogged" to="/logout">Logout</RouterLink>
+        <RouterLink v-if="!userStore.IsLogged" to="/login">Login</RouterLink>
+        <RouterLink v-if="!userStore.IsLogged" to="/register">Register</RouterLink>
       </nav>
     </div>
   </header>

@@ -2,18 +2,17 @@
 //TODO switch to Composition API instead of Option API
 //
 import AuthServices from '@/services/auth'
-function logout() {
+import { useUserStore } from '@/stores/user'
+const userStore = useUserStore()
 
-    AuthServices.logout()
-        .then(_ => {
-            console.info("Successfully logged out");
-        });
+function logout() {
+    AuthServices.logout();
 }
 
 </script>
 
 <template>
-    <div v-if="AuthServices.IsLogged">
+    <div v-if="userStore.IsLogged">
         <p>Already logged.</p>
         <p><button v-on:click="logout">LogOut</button></p>
     </div>

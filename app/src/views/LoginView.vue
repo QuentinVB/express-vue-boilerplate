@@ -4,6 +4,8 @@
 import router from '@/routes';
 import AuthServices from '@/services/auth'
 import { ref } from 'vue'
+import { useUserStore } from '@/stores/user'
+const userStore = useUserStore()
 
 const userName = ref("");
 const password = ref("");
@@ -32,7 +34,7 @@ function logout() {
 </script>
 
 <template>
-    <div v-if="AuthServices.IsLogged">
+    <div v-if="userStore.IsLogged">
         <p>Already logged.</p>
         <p><button v-on:click="logout">LogOut</button></p>
     </div>

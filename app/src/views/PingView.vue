@@ -1,7 +1,6 @@
-<script  lang="ts">
+<script lang="ts">
 //setup
 import DebugApiServices from '../services/debug'
-import { type Ping } from '../services/debug'
 
 export default {
   name: 'PingView',
