@@ -9,10 +9,9 @@ import { useUserStore } from '@/stores/user'
 const endpoint = 'auth'
 
 class AuthServices extends Service {
-
-  private _USERID = localStorage.getItem('userId')
-  private _JWT_header = localStorage.getItem('JWT_header')
-  private _JWT_payload = localStorage.getItem('JWT_payload')
+  private _USERID
+  private _JWT_header
+  private _JWT_payload
 
   public get JWT_TOKEN(): string {
     return `${this._JWT_header}.${this._JWT_payload}`
@@ -25,6 +24,16 @@ class AuthServices extends Service {
     return !!this._USERID && !!this._JWT_header && !!this._JWT_payload
   }
 
+  /**
+   *
+   */
+  constructor() {
+    super()
+    this._USERID = localStorage.getItem('userId')
+    this._JWT_header = localStorage.getItem('JWT_header')
+    this._JWT_payload = localStorage.getItem('JWT_payload')
+  }
+
   public async register(credentials: UserCreation) {
     try {
       const _ = await postAsync(this.forgeUrl(`${endpoint}/register`), credentials)
@@ -34,7 +43,6 @@ class AuthServices extends Service {
   }
 
   public async login(credentials: UserCredentials) {
-    const userStore = useUserStore()
     try {
       const res = await postAsync(this.forgeUrl(`${endpoint}/login`), credentials)
       //TODO : check if status 200
@@ -54,16 +62,25 @@ class AuthServices extends Service {
       localStorage.setItem('JWT_payload', payload)
 
       //store user info in store
-      const userInfoRes = await UserApiServices.getUserByIdAsync<User>(res.data.userId)
-      userStore.$patch({
-        userName: userInfoRes.data.userName as string,
-        credits: userInfoRes.data.credits as number,
-        IsLogged:true
-      })
+      await this.updateUserInfo(this._USERID as string);
     } catch (err) {
       console.error(err)
       throw err
     }
+  }
+
+  public async updateUserInfo(userId:string)
+  {
+    if(!this.IsLogged)throw new Error("User not logged, cant update his info");
+    ;
+
+    const userStore = useUserStore()
+    const userInfoRes = await UserApiServices.getUserByIdAsync<User>(userId)
+    userStore.$patch({
+      userName: userInfoRes.data.userName as string,
+      credits: userInfoRes.data.credits as number,
+      IsLogged: true
+    })
   }
 
   public async logout(withServerCall = true) {
@@ -82,7 +99,7 @@ class AuthServices extends Service {
     this._JWT_payload = null
     this._USERID = null
     router.push({ name: 'home' })
-    userStore.$reset();
+    userStore.$reset()
     console.info('Successfully logged out')
   }
 }

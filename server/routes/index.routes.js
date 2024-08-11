@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { randomUUID } = require("crypto");
+const path = require("path");
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -11,12 +12,10 @@ router.get("/", async function (req, res, next) {
 router.get("/app/*", async function (req, res, next) {
   if (isDev) {
     res.render("index-dev", { devUrl: process.env.APP_REDIRECT });
-    req.next()
     return;
   }
   
-  res.sendFile(path.join(__dirname, "../../dist/index.html"))
-
+  res.status(200).sendFile(path.join(__dirname, "../../dist/index.html"))
 });
 
 if (isDev) {
