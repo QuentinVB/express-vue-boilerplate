@@ -1,5 +1,5 @@
-import router from '@/routes';
-import authService from '@/services/auth';
+import router from '@/routes'
+import authService from '@/services/auth'
 import axios from 'axios'
 
 /*
@@ -9,18 +9,17 @@ function dataFilter (data, type) {
 }
 */
 
-function getAxiosConfig()
-{
-  const authConfig = authService.IsLogged ? {Authorization: `Bearer ${authService.JWT_TOKEN}`}:null;
+function getAxiosConfig() {
+  const authConfig = authService.IsLogged
+    ? { Authorization: `Bearer ${authService.JWT_TOKEN}` }
+    : null
 
-  const config = 
-  {
+  const config = {
     headers: { ...authConfig },
     withCredentials: authService.IsLogged
-  };
-  return config;
+  }
+  return config
 }
-
 
 export function getAsync<T>(url: string) {
   /* await axios.get({
@@ -30,13 +29,11 @@ export function getAsync<T>(url: string) {
     dataFilter: dataFilter,
 });
 */
-  return axios.get<T>(url,getAxiosConfig())
-  .catch(e=>{
-    if(e.response.status === 401)
-    {
-      router.push({ name: 'login' });
+  return axios.get<T>(url, getAxiosConfig()).catch((e) => {
+    if (e.response.status === 401) {
+      router.push({ name: 'login' })
     }
-    throw e;
+    throw e
   })
   //TODO add security here (if returned type is not a )
 }
@@ -49,13 +46,11 @@ export function putAsync(url: string, data: Object) {
       dataFilter: dataFilter,
   });
   */
-  return axios.put(url, data,getAxiosConfig())
-  .catch(e=>{
-    if(e.response.status === 401)
-    {
-      router.push({ name: 'login' });
+  return axios.put(url, data, getAxiosConfig()).catch((e) => {
+    if (e.response.status === 401) {
+      router.push({ name: 'login' })
     }
-    throw e;
+    throw e
   })
 }
 
@@ -67,12 +62,10 @@ export function postAsync(url: string, data: Object) {
       dataFilter: dataFilter,
   });
   */
-  return axios.post(url, data, getAxiosConfig())
-  .catch(e=>{
-    if(e.response.status === 401)
-    {
-      router.push({ name: 'login' });
+  return axios.post(url, data, getAxiosConfig()).catch((e) => {
+    if (e.response.status === 401) {
+      router.push({ name: 'login' })
     }
-    throw e;
+    throw e
   })
 }

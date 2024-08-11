@@ -9,9 +9,9 @@ import { useUserStore } from '@/stores/user'
 const endpoint = 'auth'
 
 class AuthServices extends Service {
-  private _USERID;
-  private _JWT_header;
-  private _JWT_payload;
+  private _USERID
+  private _JWT_header
+  private _JWT_payload
 
   public get JWT_TOKEN(): string {
     return `${this._JWT_header}.${this._JWT_payload}`
@@ -37,11 +37,11 @@ class AuthServices extends Service {
   public async register(credentials: UserCreation) {
     try {
       const res = await postAsync(this.forgeUrl(`${endpoint}/register`), credentials)
-      if(res.status !== 201) throw new Error("Not registred, something went wrong");
+      if (res.status !== 201) throw new Error('Not registred, something went wrong')
       //TODO : redirect to "confirm your mail" instead of login
-      router.push({ name: 'login' });
+      router.push({ name: 'login' })
     } catch (err) {
-      console.error(err);
+      console.error(err)
       //TODO : display error msg
     }
   }
@@ -49,8 +49,8 @@ class AuthServices extends Service {
   public async login(credentials: UserCredentials) {
     try {
       const res = await postAsync(this.forgeUrl(`${endpoint}/login`), credentials)
-      if(res.status !== 200) throw new Error("Not logged, something went wrong");
-      
+      if (res.status !== 200) throw new Error('Not logged, something went wrong')
+
       this._USERID = res.data.userId
       localStorage.setItem('userId', res.data.userId)
 
@@ -67,18 +67,15 @@ class AuthServices extends Service {
       localStorage.setItem('JWT_payload', payload)
 
       //store user info in store
-      await this.updateUserInfo(this._USERID as string);
+      await this.updateUserInfo(this._USERID as string)
     } catch (err) {
       console.error(err)
       throw err
     }
   }
 
-  public async updateUserInfo(userId:string)
-  {
-    if(!this.IsLogged)throw new Error("User not logged, cant update his info");
-    ;
-
+  public async updateUserInfo(userId: string) {
+    if (!this.IsLogged) throw new Error('User not logged, cant update his info')
     const userStore = useUserStore()
     const userInfoRes = await UserApiServices.getUserByIdAsync<User>(userId)
     userStore.$patch({

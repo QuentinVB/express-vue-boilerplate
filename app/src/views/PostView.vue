@@ -1,32 +1,32 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted } from 'vue'
 import { ref } from 'vue'
 import SendIcon from '../components/icons/IconSending.vue'
 import PostApiServices from '@/services/post'
 import Post from '@/models/Post'
 import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
-const message = ref("");
-let posts = ref();
+const message = ref('')
+let posts = ref()
 
 async function updatePosts() {
-  posts.value = (await PostApiServices.getPostsAsync()).data;
+  posts.value = (await PostApiServices.getPostsAsync()).data
 }
 
 onMounted(async () => {
-  updatePosts();
+  updatePosts()
 })
 
 function SendMessage() {
-  const post = new Post("");
-  post.message = message.value;
+  const post = new Post('')
+  post.message = message.value
   PostApiServices.createPostAsync(post)
-    .then(_ => {
-      message.value = "";
-      updatePosts();
+    .then((_) => {
+      message.value = ''
+      updatePosts()
     })
     .catch((err: any) => {
-      console.error(err);
+      console.error(err)
     })
 }
 </script>
@@ -115,7 +115,7 @@ button {
 }
 
 .author::after {
-  content: ":";
+  content: ':';
   width: 1em;
   height: 1em;
   position: absolute;

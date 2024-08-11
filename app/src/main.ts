@@ -11,10 +11,10 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-const userStore = useUserStore()
+useUserStore()
 
 if (auth.IsLogged) {
-  auth.updateUserInfo(auth.USER_ID as string).then((_) => {})
+  auth.updateUserInfo(auth.USER_ID as string)
 }
 
 app.mount('#app')

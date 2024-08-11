@@ -8,22 +8,22 @@ export default {
   data: function () {
     return {
       ping: {
-        status: "None",
-        salt: "None",
+        status: 'None',
+        salt: 'None',
         timestamp: 0
-      },
+      }
     }
   },
   methods: {
     RequestPing: function () {
       DebugApiServices.getPingAsync()
-        .then(res => {
+        .then((res) => {
           //console.log(res);
-          this.ping = res.data;
+          this.ping = res.data
           //ping.value =data;
         })
-        .catch(err => {
-          console.error(err);
+        .catch((err) => {
+          console.error(err)
         })
     }
   }

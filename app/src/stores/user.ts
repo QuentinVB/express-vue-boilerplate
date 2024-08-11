@@ -2,14 +2,14 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', () => {
-  const userName = ref("");
-  const credits = ref(0);
-  const IsLogged = ref(false);
+  const userName = ref('')
+  const credits = ref(0)
+  const IsLogged = ref(false)
 
   function $reset() {
-    userName.value = "";
-    credits.value = 0;
-    IsLogged.value =false;
+    userName.value = ''
+    credits.value = 0
+    IsLogged.value = false
   }
   /*
   const IsLogged = computed<boolean>(()=>{
@@ -17,5 +17,5 @@ export const useUserStore = defineStore('user', () => {
   });
   */
 
-  return {userName ,credits, IsLogged,$reset }
+  return { userName, credits, IsLogged, $reset }
 })

@@ -1,7 +1,7 @@
 export default class Post {
   public id?: String
   public message?: String
- 
+
   /**
    *
    */

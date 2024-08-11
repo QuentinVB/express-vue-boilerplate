@@ -1,6 +1,5 @@
-export interface UserCredentials 
-{
-  userName?: String,
+export interface UserCredentials {
+  userName?: String
   password?: String
 }
 
@@ -20,7 +19,6 @@ export default class User {
   }
 }
 
-export interface UserCreation extends UserCredentials
-{
+export interface UserCreation extends UserCredentials {
   email?: String
 }
