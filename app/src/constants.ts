@@ -6,9 +6,7 @@ const devConfig =
 }
 const prodConfig = 
 {
-    api : 'http://localhost:3000/'
+    api : 'http://localhost:8080/'
 }
-//export const prodapi= 'http://les-planetes2kentin.fr/api'
-
 
 export const API_URL = isDev ? devConfig.api : prodConfig.api

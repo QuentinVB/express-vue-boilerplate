@@ -45,7 +45,11 @@ async function sendEmailConfirm(to, userid, key) {
   const template = Handlebars.compile(file);
   let domain = "";
   if (isDev) {
-    //TODO : store devdomain elsewhere
+    //FIXME : store dev and prod domain elsewhere
+    domain = "http://localhost";
+  }
+  else
+  {
     domain = "http://localhost";
   }
   url = `${domain}:${process.env.PORTSERVER}/auth/confirm?id=${encodeURI(userid)}&key=${encodeURI(key)}`;

@@ -5,14 +5,17 @@ const { randomUUID } = require("crypto");
 const isDev = process.env.NODE_ENV === "development";
 
 router.get("/", async function (req, res, next) {
+  res.redirect("/app/")
+});
+
+router.get("/app/*", async function (req, res, next) {
   if (isDev) {
     res.render("index-dev", { devUrl: process.env.APP_REDIRECT });
+    return;
   }
-  else
-  {
-    req.next();
-    //req.sendFile(path.join(__dirname, "../../dist/index.html"))
-  }
+  
+  req.sendFile(path.join(__dirname, "../../dist/index.html"))
+
 });
 
 if (isDev) {
