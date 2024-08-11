@@ -1,15 +1,11 @@
 <script setup lang="ts">
-//TODO switch to Composition API instead of Option API
-//
 import { onMounted } from 'vue';
 import { ref } from 'vue'
 import SendIcon from '../components/icons/IconSending.vue'
-
 import PostApiServices from '@/services/post'
 import Post from '@/models/Post'
 import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
-
 const message = ref("");
 let posts = ref();
 
@@ -36,7 +32,6 @@ function SendMessage() {
 </script>
 
 <template>
-
   <div class="content">
     <div class="nav-area">
       <p v-if="userStore.IsLogged">Logged as {{ userStore.userName }}</p>

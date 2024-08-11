@@ -5,6 +5,7 @@ const fs = require("fs/promises");
 
 const isDev = process.env.NODE_ENV === "development";
 
+//TODO : use .env to store domain/usr/pwd
 const transporter = nodemailer.createTransport({
   host: "127.0.0.1", // The hostname of the SMTP server
   port: 25, // The port of the SMTP server (commonly 587 for secure, 25 for insecure)
@@ -43,16 +44,7 @@ async function sendEmailConfirm(to, userid, key) {
     "utf-8"
   );
   const template = Handlebars.compile(file);
-  let domain = "";
-  if (isDev) {
-    //FIXME : store dev and prod domain elsewhere
-    domain = "http://localhost";
-  }
-  else
-  {
-    domain = "http://localhost";
-  }
-  url = `${domain}:${process.env.PORTSERVER}/auth/confirm?id=${encodeURI(userid)}&key=${encodeURI(key)}`;
+  url = `http://${process.env.APP_DOMAIN}:${process.env.PORTSERVER}/auth/confirm?id=${encodeURI(userid)}&key=${encodeURI(key)}`;
   const html = template({ url });
   sendEmail(to, "Confirmation de l'adresse email", html);
 }

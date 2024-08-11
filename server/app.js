@@ -27,7 +27,6 @@ DBInit();
 // initialize and configure express
 const app = express();
 
-//TODO disable when in dev
 app.use(compression());
 
 if (process.env.NODE_ENV !== "development") {
@@ -50,7 +49,7 @@ if (process.env.NODE_ENV !== "development") {
   console.warn("DEV Mode : CORS and CSP disabled")
   //disable CORS and CSP
   const corsOptions ={
-    origin: [`http://localhost:${process.env.PORTSERVER}`,process.env.APP_REDIRECT],
+    origin: [`http://${process.env.APP_DOMAIN}:${process.env.PORTSERVER}`,process.env.APP_REDIRECT],
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
   }
@@ -83,7 +82,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 //routers
-//TODO group into an index router later 
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
 

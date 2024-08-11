@@ -1,14 +1,10 @@
 <script setup lang="ts">
-//TODO switch to Composition API instead of Option API
-//
 import AuthServices from '@/services/auth'
 import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
-
 function logout() {
     AuthServices.logout();
 }
-
 </script>
 
 <template>

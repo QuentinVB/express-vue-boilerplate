@@ -1,13 +1,9 @@
 <script setup lang="ts">
-//TODO switch to Composition API instead of Option API
-//
 import router from '@/routes';
 import AuthServices from '@/services/auth'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
-const userStore = useUserStore()
-
-
+const userStore = useUserStore();
 const userName = ref("");
 const userEmail = ref("");
 const password = ref("");
@@ -23,22 +19,12 @@ function register() {
     AuthServices.register(credentials).then(_ => {
         console.info("User successfully registered");
     });
-
-    if (!userStore.IsLogged) {
-        router.push({ name: 'login' });
-    }
 }
-
-function logout() {
-    AuthServices.logout();
-}
-
 </script>
 
 <template>
     <div v-if="userStore.IsLogged">
-        <p>Already logged.</p>
-        <p><button v-on:click="logout">LogOut</button></p>
+        <p>Already logged in.</p>
     </div>
     <div v-else>
         <h1>Register</h1>

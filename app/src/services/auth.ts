@@ -9,9 +9,9 @@ import { useUserStore } from '@/stores/user'
 const endpoint = 'auth'
 
 class AuthServices extends Service {
-  private _USERID
-  private _JWT_header
-  private _JWT_payload
+  private _USERID;
+  private _JWT_header;
+  private _JWT_payload;
 
   public get JWT_TOKEN(): string {
     return `${this._JWT_header}.${this._JWT_payload}`
@@ -36,16 +36,21 @@ class AuthServices extends Service {
 
   public async register(credentials: UserCreation) {
     try {
-      const _ = await postAsync(this.forgeUrl(`${endpoint}/register`), credentials)
+      const res = await postAsync(this.forgeUrl(`${endpoint}/register`), credentials)
+      if(res.status !== 201) throw new Error("Not registred, something went wrong");
+      //TODO : redirect to "confirm your mail" instead of login
+      router.push({ name: 'login' });
     } catch (err) {
-      console.error(err)
+      console.error(err);
+      //TODO : display error msg
     }
   }
 
   public async login(credentials: UserCredentials) {
     try {
       const res = await postAsync(this.forgeUrl(`${endpoint}/login`), credentials)
-      //TODO : check if status 200
+      if(res.status !== 200) throw new Error("Not logged, something went wrong");
+      
       this._USERID = res.data.userId
       localStorage.setItem('userId', res.data.userId)
 

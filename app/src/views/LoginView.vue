@@ -1,6 +1,4 @@
 <script setup lang="ts">
-//TODO switch to Composition API instead of Option API
-//
 import router from '@/routes';
 import AuthServices from '@/services/auth'
 import { ref } from 'vue'
@@ -10,7 +8,6 @@ const userStore = useUserStore()
 const userName = ref("");
 const password = ref("");
 const errormsg = ref("");
-
 
 function login() {
     const credentials = {
@@ -27,16 +24,12 @@ function login() {
         })
 }
 
-function logout() {
-    AuthServices.logout();
-}
 
 </script>
 
 <template>
     <div v-if="userStore.IsLogged">
-        <p>Already logged.</p>
-        <p><button v-on:click="logout">LogOut</button></p>
+        <p>Already logged in.</p>
     </div>
     <div v-else>
         <h1>Login</h1>
