@@ -39,7 +39,7 @@ function logout() {
         <p><button v-on:click="logout">LogOut</button></p>
     </div>
     <div v-else>
-        <h1>LOGIN</h1>
+        <h1>Login</h1>
         <form @submit.prevent="login">
             <p>{{ errormsg }}</p>
             <p>

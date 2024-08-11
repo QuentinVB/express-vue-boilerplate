@@ -11,16 +11,18 @@ router.get("/", async function (req, res, next) {
 router.get("/app/*", async function (req, res, next) {
   if (isDev) {
     res.render("index-dev", { devUrl: process.env.APP_REDIRECT });
+    req.next()
     return;
   }
   
-  req.sendFile(path.join(__dirname, "../../dist/index.html"))
+  res.sendFile(path.join(__dirname, "../../dist/index.html"))
 
 });
 
 if (isDev) {
   router.get("/src/*", async function (req, res, next) {
     console.info("Dev mode, redirect to Vite");
+    console.log(req.originalUrl);
     res.redirect(process.env.APP_REDIRECT + req.originalUrl);
   });
 

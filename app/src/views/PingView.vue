@@ -34,7 +34,7 @@ export default {
   <div class="ping">
     <h1>This is a page to ping the server</h1>
     <button type="button" @click="RequestPing">Ping server</button>
-    <h2>Ping response</h2>
+    <h3>Ping response</h3>
     <ul>
       <li>Status is {{ ping.status }}</li>
       <li>UUID is {{ ping.salt }}</li>
@@ -43,12 +43,17 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
+.ping {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (min-width: 1024px) {
   .ping {
     min-height: 100vh;
-    display: flex;
-    align-items: center;
   }
 }
 </style>
