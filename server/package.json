@@ -4,9 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node -r dotenv/config server.js dotenv_config_path=prod.env",
-    "dev": "nodemon -r dotenv/config server.js dotenv_config_path=dev.env"
+    "dev": "nodemon -r dotenv/config server.js dotenv_config_path=dev.env",
+    "test": "jest"
   },
   "author": "Quentin Vanbutsele",
   "license": "ISC",
@@ -27,7 +27,12 @@
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.2",
     "morgan": "^1.10.0",
-    "nodemailer": "^6.9.14",
-    "nodemon": "^3.0.1"
+    "nodemailer": "^6.9.14"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.1",
+    "supertest": "^7.0.0"
   }
 }

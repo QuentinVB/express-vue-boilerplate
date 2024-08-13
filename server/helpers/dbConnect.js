@@ -6,13 +6,16 @@ const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 
 // Define the database URL to connect to.
-const mongoDBUrl = process.env.MONGODBURL;
+const MONGODB_URI = process.env.MONGODB_URI;
+const isDev = process.env.NODE_ENV === "development";
 
 // Wait for database to connect, logging an error if there is a problem
-function DBInit()
-{
-  mongoose.connect(mongoDBUrl, {useNewUrlParser: true,})
-    .then(()=>console.log("MongoDB Sucessfully connected !"))
+function DBInit() {
+  mongoose
+    .connect(MONGODB_URI, { useNewUrlParser: true })
+    .then(() => {
+      if (isDev) console.info("MongoDB Sucessfully connected !");
+    })
     .catch((err) => console.log(err));
 }
 

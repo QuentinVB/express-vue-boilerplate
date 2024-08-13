@@ -11,15 +11,15 @@ const compression = require("compression");
 const helmet = require("helmet");
 const RateLimit = require("express-rate-limit");
 const cors = require('cors');
+const isDev = process.env.NODE_ENV === "development";
 
-console.log("Loading server modules...")
+if(isDev)console.log("Loading server modules...")
 
 //modules
 const DBInit = require("./helpers/dbConnect");
 const indexRouter = require("./routes/index.routes");
 const authRouter = require("./routes/auth.routes");
 const apiRouter = require("./routes/api.routes");
-
 
 // initialize mongoDB
 DBInit();
@@ -29,7 +29,7 @@ const app = express();
 
 app.use(compression());
 
-if (process.env.NODE_ENV !== "development") {
+if (!isDev) {
   //csp
   app.use(
     helmet.contentSecurityPolicy({
