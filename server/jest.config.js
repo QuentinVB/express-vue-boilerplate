@@ -5,7 +5,9 @@ module.exports = {
   testMatch: ["**/*.tests.(js)"],
   collectCoverageFrom: ["src/**/*.{js}"],
   setupFiles: ["<rootDir>/tests/config/dotenv-config.js"],
+  globalSetup: "<rootDir>/tests/config/globalSetup.js",
+  globalTeardown: "<rootDir>/tests/config/globalTeardown.js",
   setupFilesAfterEnv:[
-    "<rootDir>/tests/config/setupEachTests.js",
-    "<rootDir>/tests/config/teardownEachTests.js"]
+    "<rootDir>/tests/config/setupTests.js",
+  ],
 };

@@ -8,7 +8,6 @@
     "ritwickdey.liveserver",
     "esbenp.prettier-vscode",
     "vue.volar",
-    "Vue.vscode-typescript-vue-plugin",
     "syler.sass-indented",
     "mikestead.dotenv"
   ],
