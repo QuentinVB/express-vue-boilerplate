@@ -7,7 +7,7 @@ const auth = require("../../middleware/auth");
 //POST Create new post
 router.post('/',auth, postController.createPost);
 
-//GET All
+//GET All posts
 router.get('/',postController.getAllPosts);
 
 //GET by id

@@ -3,4 +3,5 @@
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "Vue.volar"
     },
+    "jest.runMode": {"type": "on-demand"}
 }

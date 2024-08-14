@@ -12,6 +12,7 @@ const helmet = require("helmet");
 const RateLimit = require("express-rate-limit");
 const cors = require('cors');
 const isDev = process.env.NODE_ENV === "development";
+const isTest = process.env.NODE_ENV === "test";
 
 if(isDev)console.log("Loading server modules...")
 
@@ -22,7 +23,7 @@ const authRouter = require("./routes/auth.routes");
 const apiRouter = require("./routes/api.routes");
 
 // initialize mongoDB
-DBInit();
+if(!isTest) DBInit();
 
 // initialize and configure express
 const app = express();
