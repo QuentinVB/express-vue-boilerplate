@@ -1,16 +1,7 @@
 const PostModel = require("../api/models/post.model");
 const UserModel = require("../api/models/user.model");
-const createFixtures = require("./config/fixtures");
-const clearDatabase = require("./config/clearDatabase");
+require("dotenv").config();
 
-beforeEach(async () => {
-  await clearDatabase();
-  await createFixtures();
-});
-
-afterEach(async () => {
-  await clearDatabase();
-});
 describe("PostModel", () => {
   it("should create and save a new post successfully", async () => {
     // Arrange

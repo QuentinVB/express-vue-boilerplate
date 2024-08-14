@@ -1,17 +1,7 @@
 const request = require("supertest");
 const app = require("../app");
-const createFixtures = require("./config/fixtures");
-const clearDatabase = require("./config/clearDatabase");
+require("dotenv").config();
 
-
-beforeEach(async () => {
-  await clearDatabase();
-  await createFixtures();
-});
-
-afterEach(async () => {
-  await clearDatabase();
-});
 
 describe("POST /api/post", () => {
   it("should create a new post", async () => {
