@@ -10,4 +10,12 @@ module.exports = {
   setupFilesAfterEnv:[
     "<rootDir>/tests/config/setupTests.js",
   ],
+  collectCoverage:true,
+  collectCoverageFrom:[
+    '**/*.{js,jsx}',
+    '!**/tests/**',
+    '!**/coverage/**',
+    '!**/node_modules/**',
+  ],
+  coverageDirectory:"<rootDir>/coverage"
 };

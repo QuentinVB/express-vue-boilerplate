@@ -15,12 +15,11 @@ exports.dbSetup = async function () {
   );
   await conn.connection.db.dropDatabase();
   await mongoose.disconnect();
-}
+};
 
 exports.dbTeardown = async function () {
   await DB_INSTANCE.stop();
 };
-
 
 exports.dbClear = async () => {
   await mongoose.connection.dropDatabase();

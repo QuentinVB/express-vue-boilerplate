@@ -6,7 +6,6 @@ const {
   dbClear
 } = require('../utils/dbHandler.utils');
 
-console.info("CONFIGURE BEFORE/AFTER EACH FILE");
 beforeEach(async () => {
   await dbClear();
   await createFixtures();
