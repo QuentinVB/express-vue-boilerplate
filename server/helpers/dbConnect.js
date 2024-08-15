@@ -5,14 +5,12 @@ const mongoose = require("mongoose");
 // See: https://mongoosejs.com/docs/migrating_to_6.html#strictquery-is-removed-and-replaced-by-strict
 mongoose.set("strictQuery", false);
 
-// Define the database URL to connect to.
-const MONGODB_URI = process.env.MONGODB_URI;
 const isDev = process.env.NODE_ENV === "development";
 
 // Wait for database to connect, logging an error if there is a problem
 function DBInit() {
   mongoose
-    .connect(MONGODB_URI, { useNewUrlParser: true })
+    .connect(`${process.env.MONGODB_URI}/${process.env.MONGODB_DB}`, { useNewUrlParser: true })
     .then(() => {
       if (isDev) console.info("MongoDB Sucessfully connected !");
     })

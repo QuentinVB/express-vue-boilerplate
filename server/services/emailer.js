@@ -5,20 +5,19 @@ const fs = require("fs/promises");
 
 const isDev = process.env.NODE_ENV === "development";
 
-//TODO : use .env to store domain/usr/pwd
 const transporter = nodemailer.createTransport({
-  host: "127.0.0.1", // The hostname of the SMTP server
-  port: 25, // The port of the SMTP server (commonly 587 for secure, 25 for insecure)
-  secure: false, // Defines if the connection should use SSL/TLS. If true, the port should be 465
+  host: process.env.SMTP_HOST, // The hostname of the SMTP server
+  port: process.env.SMTP_PORT, // The port of the SMTP server (commonly 587 for secure, 25 for insecure)
+  secure: process.env.SMTP_TLS, // Defines if the connection should use SSL/TLS. If true, the port should be 465
   auth: {
     type: "login",
-    user: "test", // SMTP username
-    pass: "test", // SMTP password
+    user: process.env.SMTP_USR, // SMTP username
+    pass: process.env.SMTP_PWD, // SMTP password
   },
   tls: {
     rejectUnauthorized: false,
   },
-  debug: true,
+  debug: isDev,
 });
 
 //TODO : make it async, and stripe HTML
