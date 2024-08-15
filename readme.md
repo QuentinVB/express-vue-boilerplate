@@ -20,8 +20,8 @@ TODO :
 - [x] prod/dev mode
 - [ ] Fix Express memory leak in production mod using mongoDB https://stackoverflow.com/a/47383274
 - [ ] Test in Vue
-- [ ] Tests coverage Jest/istambul
-- [x] Test Inmemory
+- [ ] Tests coverage Jest/istanbul
+- [x] Test Inmemory 31s => 10s
 
 https://mermaid.js.org/intro/
 https://expressjs.com/fr/4x/api.html

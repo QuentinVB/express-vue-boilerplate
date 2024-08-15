@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { createUser } = require("./user.controller");
 const { confirmKey } = require("../../helpers/confirmKey.js");
+const isDev = process.env.NODE_ENV === "development";
 
 const register = asyncHandler(async (req, res, next) => {
   return createUser(req, res, next);
@@ -54,7 +55,7 @@ const login = asyncHandler(async (req, res, next) => {
       userId: user.id,
       token: `${JWT_TokenSplited[0]}.${JWT_TokenSplited[1]}`,
     });
-  console.log(`Successfully log in user ${userName}-${user._id}  `);
+  if(isDev)console.log(`Successfully log in user ${userName}-${user._id}  `);
 });
 
 const logout = asyncHandler(async (req, res, next) => {

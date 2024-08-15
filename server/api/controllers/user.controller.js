@@ -1,7 +1,8 @@
+require("dotenv").config();
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
-const {sendEmailConfirm} = require("../../services/emailer.js")
-const {confirmKeyGenerator}= require("../../helpers/confirmKey.js")
+const { sendEmailConfirm } = require("../../services/emailer.js");
+const { confirmKeyGenerator } = require("../../helpers/confirmKey.js");
 const SALTROUND = 10;
 
 const UserModel = require("../models/user.model");
@@ -26,11 +27,14 @@ const createUser = asyncHandler(async (req, res, next) => {
   newUserObject = newUser.toObject();
   delete newUserObject.passwordHash;
 
-  console.log(newUser.id)
-
-  const key = await confirmKeyGenerator(newUser.id,newUser.userName,newUser.userEmail);
-  await sendEmailConfirm(newUser.userEmail,newUser.id,key)
-
+  if (process.env.NODE_ENV !== "test") {
+    const key = await confirmKeyGenerator(
+      newUser.id,
+      newUser.userName,
+      newUser.userEmail
+    );
+    await sendEmailConfirm(newUser.userEmail, newUser.id, key);
+  }
   res.status(201).json(newUserObject);
 });
 
@@ -49,7 +53,20 @@ const getAllUsers = asyncHandler(async (req, res, next) => {
 
 const getUserById = asyncHandler(async (req, res, next) => {
   const id = req.params.id;
-  let user = await UserModel.findById(id);
+  let user;
+
+  try {
+    user = await UserModel.findById(id);
+  } catch (error) {
+    //FIXME : filter error
+    res.status(404).json({ error: "user not found", id });
+    return;
+    throw error;
+  }
+  if (!user) {
+    res.status(404).json({ error: "user not found", id });
+    return;
+  }
 
   user = user.toObject();
   delete user.passwordHash;
@@ -60,13 +77,15 @@ const getUserById = asyncHandler(async (req, res, next) => {
 
 //UPDATE
 const putUser = asyncHandler(async (req, res, next) => {
-  const { password, ...user } = req.body.user;
+  const { password, ...user } = req.body.User;
   const id = req.params.id;
 
-  const hash = await bcrypt.hash(password, 10);
-  user.passwordHash = hash;
+  if (password) {
+    const hash = await bcrypt.hash(password, 10);
+    user.passwordHash = hash;
+  }
 
-  let updatedUser = await UserModel.findByIdAndUpdate(id, user, {});
+  let updatedUser = await UserModel.findByIdAndUpdate(id, user, { new: true });
 
   updatedUser = updatedUser.toObject();
   delete updatedUser.passwordHash;

@@ -1,27 +1,25 @@
 require("dotenv").config();
 const createFixtures = require("./fixtures");
-const clearDatabase = require("./clearDatabase");
 const {
   dbConnect,
   dbDisconnect,
+  dbClear
 } = require('../utils/dbHandler.utils');
 
-console.log("CONFIGURE BEFORE/AFTER EACH FILE");
+console.info("CONFIGURE BEFORE/AFTER EACH FILE");
 beforeEach(async () => {
-  await clearDatabase();
+  await dbClear();
   await createFixtures();
 });
 beforeAll(async () => {
   await dbConnect()
-  //await mongoose.connect(process.env.MONGODB_URI);
 });
 
 afterAll(async () => {
-  await clearDatabase();
+  await dbClear();
   await dbDisconnect();
-  //await mongoose.connection.close();
 });
 
 afterEach(async () => {
-  await clearDatabase();
+  await dbClear();
 });

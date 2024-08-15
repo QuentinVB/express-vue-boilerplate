@@ -1,13 +1,13 @@
+require("dotenv").config();
 const PostModel = require("../api/models/post.model");
 const UserModel = require("../api/models/user.model");
-require("dotenv").config();
 
 describe("PostModel", () => {
   it("should create and save a new post successfully", async () => {
     // Arrange
     const user = new UserModel({
       userName: "testUser",
-      email: "testuser@example.com",
+      userEmail: "testuser2@example.com",
       password: "hashedpassword"
     });
     await user.save();
@@ -27,7 +27,7 @@ describe("PostModel", () => {
     expect(savedPost.message).toBe("This is a test message");
   });
 
-  it("should not save a post without a required field", async () => {
+  it("should not save a post without a user", async () => {
     // Arrange
     const post = new PostModel({
       message: "This post has no userId",
@@ -53,7 +53,7 @@ describe("PostModel", () => {
     // Arrange
     const user = new UserModel({
       userName: "testUser",
-      email: "testuser@example.com",
+      userEmail: "testuser@example.com",
       password: "hashedpassword"
     });
     await user.save();

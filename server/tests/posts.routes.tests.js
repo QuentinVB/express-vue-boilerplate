@@ -1,18 +1,35 @@
+require("dotenv").config();
 const request = require("supertest");
 const app = require("../app");
-require("dotenv").config();
+const loginUser = require("./utils/login.utils");
 
+var auth = {};
+
+beforeEach(async () => {
+  await loginUser(app, auth);
+});
 
 describe("POST /api/post", () => {
+  it("should not create a new post when not auth", async () => {
+    // Arrange
+    const newPost = { message: "New post message" };
+
+    // Act
+    const res = await request(app).post("/api/post").send({ Post: newPost });
+
+    // Assert
+    expect(res.statusCode).toBe(401);
+    //CHECK for not creation of message !
+  });
   it("should create a new post", async () => {
     // Arrange
     const newPost = { message: "New post message" };
-    const token = "Bearer your-jwt-token"; // Remplacer par un vrai token JWT valide
 
     // Act
     const res = await request(app)
       .post("/api/post")
-      .set('Authorization', token)
+      .set("Authorization", "Bearer " + auth.token)
+      .set("Cookie", ["JWT_SIGN=" + auth.cookieSign])
       .send({ Post: newPost });
 
     // Assert
@@ -24,7 +41,7 @@ describe("POST /api/post", () => {
 
 describe("GET /api/post", () => {
   it("should return all posts", async () => {
-    // Arrange: Rien à faire ici car les fixtures sont déjà chargées
+    // Arrange: fixtures loaded
 
     // Act
     const res = await request(app).get("/api/post");
@@ -36,6 +53,16 @@ describe("GET /api/post", () => {
 });
 
 describe("GET /api/post/:id", () => {
+  it("should not return post with incorrect id", async () => {
+    // Arrange : fixture
+    const incorrectPostId = "gabuzomeuh";
+    // Act
+    const res = await request(app).get(`/api/post/${incorrectPostId}`);
+
+    // Assert
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toHaveProperty("id", incorrectPostId);
+  });
   it("should return a single post by id", async () => {
     // Arrange
     const posts = await request(app).get("/api/post");
@@ -56,12 +83,12 @@ describe("PUT /api/post/:id", () => {
     const posts = await request(app).get("/api/post");
     const postId = posts.body[0]._id;
     const updatedPost = { message: "Updated post message" };
-    const token = "Bearer your-jwt-token";
 
     // Act
     const res = await request(app)
       .put(`/api/post/${postId}`)
-      .set('Authorization', token)
+      .set("Authorization", "Bearer " + auth.token)
+      .set("Cookie", ["JWT_SIGN=" + auth.cookieSign])
       .send({ Post: updatedPost });
 
     // Assert
@@ -75,17 +102,17 @@ describe("DELETE /api/post/:id", () => {
     // Arrange
     const posts = await request(app).get("/api/post");
     const postId = posts.body[0]._id;
-    const token = "Bearer your-jwt-token";
 
     // Act
     const res = await request(app)
       .delete(`/api/post/${postId}`)
-      .set('Authorization', token);
+      .set("Authorization", "Bearer " + auth.token)
+      .set("Cookie", ["JWT_SIGN=" + auth.cookieSign]);
 
     // Assert
     expect(res.statusCode).toBe(200);
 
     const checkRes = await request(app).get(`/api/post/${postId}`);
-    expect(checkRes.statusCode).toBe(404); // Assurez-vous que le post a été supprimé
+    expect(checkRes.statusCode).toBe(404); 
   });
 });

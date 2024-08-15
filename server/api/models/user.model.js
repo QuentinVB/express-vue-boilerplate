@@ -5,8 +5,15 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema(
   {
     accountConfirmed:{type:Boolean, default:false},
-    userName: String,
-    userEmail: String,
+    userName: {
+      type: String,
+      required: true,
+    },
+    userEmail: {
+      type: String,
+      required: true,
+      unique:true
+    },
     passwordHash: String,
     credits: { type: Number, default: 1000 },
 
