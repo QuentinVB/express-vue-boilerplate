@@ -2,7 +2,7 @@ module.exports = {
   testTimeout: 10000,
   roots: ["<rootDir>"],
   testEnvironment: "node",
-  testMatch: ["**/*.tests.(js)"],
+  testMatch: ["**/*.test.(js)"],
   collectCoverageFrom: ["src/**/*.{js}"],
   setupFiles: ["<rootDir>/tests/config/dotenv-config.js"],
   globalSetup: "<rootDir>/tests/config/globalSetup.js",

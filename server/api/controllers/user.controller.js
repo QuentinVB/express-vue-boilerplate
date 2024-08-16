@@ -27,6 +27,7 @@ const createUser = asyncHandler(async (req, res, next) => {
   newUserObject = newUser.toObject();
   delete newUserObject.passwordHash;
 
+  //FIXME: coupling and to many responsibilities
   if (process.env.NODE_ENV !== "test") {
     const key = await confirmKeyGenerator(
       newUser.id,
