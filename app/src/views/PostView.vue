@@ -5,9 +5,10 @@ import SendIcon from '../components/icons/IconSending.vue'
 import PostApiServices from '@/services/post'
 import Post from '@/models/Post'
 import { useUserStore } from '@/stores/user'
+import PostItem from '@/components/PostItem.vue'
 const userStore = useUserStore()
 const message = ref('')
-let posts = ref()
+let posts = ref<Post[]>([])
 
 async function updatePosts() {
   posts.value = (await PostApiServices.getPostsAsync()).data
@@ -44,10 +45,7 @@ function SendMessage() {
       </form>
     </div>
     <div class="messages">
-      <div v-for="post in posts" :key="post.id" class="message">
-        <div class="author">{{ post.user.name }}</div>
-        <div>{{ post.message }}</div>
-      </div>
+      <PostItem v-for="post in posts" v-bind:key="posts.indexOf(post)" class="message" v-bind:post="post" />
     </div>
   </div>
 </template>
@@ -99,26 +97,5 @@ button {
   display: flex;
   justify-content: start;
   flex-direction: column-reverse;
-}
-
-.message {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  gap: 1em;
-}
-
-.author {
-  min-width: 5em;
-  text-align: right;
-  position: relative;
-}
-
-.author::after {
-  content: ':';
-  width: 1em;
-  height: 1em;
-  position: absolute;
-  right: -0.5em;
 }
 </style>

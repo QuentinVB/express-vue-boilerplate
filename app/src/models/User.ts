@@ -5,7 +5,7 @@ export interface UserCredentials {
 
 export default class User {
   public id: String
-  public userName?: String
+  public userName: String | "" = "anonyme"
   public email?: String
   public credits?: Number
 

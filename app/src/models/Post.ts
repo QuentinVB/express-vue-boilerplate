@@ -1,6 +1,10 @@
+import type User from "./User"
+
 export default class Post {
+  
   public id?: String
-  public message?: String
+  public message!: String 
+  public user!: User
 
   /**
    *
