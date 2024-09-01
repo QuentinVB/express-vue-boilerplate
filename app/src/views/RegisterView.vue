@@ -17,6 +17,10 @@ function register() {
     password: password.value
   }
   //TODO : add check BEFORE subimt to back !
+  if (password.value.length <= 10) {
+    $toast.info("Le mot de passe doit comporter 10 caractères ou plus ");
+    return;
+  }
 
   AuthServices.register(credentials).then(msg => {
     $toast.success(msg);
@@ -34,13 +38,18 @@ function register() {
   <div v-else>
     <h1>Register</h1>
     <form @submit.prevent="register">
-      <p><label>Nom d'user</label><input v-model="userName" placeholder="username" /></p>
-      <p><label>Email</label><input v-model="userEmail" placeholder="userEmail" type="email" /></p>
+      <p><label class="required-label">Nom d'user</label><input v-model="userName" placeholder="username" required />
+      </p>
+      <p><label class="required-label">Email</label><input v-model="userEmail" placeholder="userEmail" type="email"
+          required /></p>
+      <p>(10 caractères min.)</p>
       <p>
-        <label>Mot de passe</label><input v-model="password" placeholder="password" type="password" />
+        <label class="required-label">Mot de passe</label><input v-model="password" placeholder="password"
+          type="password" required />
       </p>
       <p>
-        <label>Confirmation</label><input v-model="passwordConfirm" placeholder="confirm password" type="password" />
+        <label class="required-label">Confirmation</label><input v-model="passwordConfirm"
+          placeholder="confirm password" type="password" required />
       </p>
       <p v-if="password.length > 0 && passwordConfirm.length > 0 && passwordConfirm !== password">
         Les 2 mot de passes ne sont pas valides
@@ -51,3 +60,10 @@ function register() {
     </form>
   </div>
 </template>
+<style lang="scss" scoped>
+.required-label::after {
+  content: " *";
+  color: red;
+  font-weight: bold;
+}
+</style>
