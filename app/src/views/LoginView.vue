@@ -43,5 +43,6 @@ function login() {
         <button type="submit">Login</button>
       </p>
     </form>
+    <RouterLink to="/passwordresetrequest">Mot de passe oublié ?</RouterLink>
   </div>
 </template>

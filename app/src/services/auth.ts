@@ -104,6 +104,29 @@ class AuthServices extends Service {
     userStore.$reset()
     console.info('Successfully logged out')
   }
+
+  public async requestPasswordRecuperation(userEmail:string)
+  {
+    try {
+      const res = await postAsync(this.forgeUrl(`${endpoint}/requestpasswordreset`), {userEmail})
+      if (res.status !== 200) throw new Error('Email not send, something went wrong')
+      //TODO : redirect to "confirm your mail" instead of login
+      router.push({ name: 'login' })
+    } catch (err) {
+      console.error(err)
+      //TODO : display error msg
+    }
+  }
+
+  public async changePassword(id:string,password: string,key:string) {
+    try {
+      const res = await postAsync(this.forgeUrl(`${endpoint}/changepassword`), {id,password,key})
+      if (res.status !== 200) throw new Error('Not changed, something went wrong')
+      router.push({ name: 'login' })
+    } catch (err) {
+      console.error(err)
+    }
+  }
 }
 
 export default new AuthServices()
