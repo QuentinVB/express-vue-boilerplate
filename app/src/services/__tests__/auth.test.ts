@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, type Mock } from 'vitest'
 import AuthServices from '../auth'
 import UserService from '../user'
 import { useUserStore } from '@/stores/user'
@@ -24,7 +24,7 @@ vi.mock('@/routes', () => ({
 
 describe('AuthServices', () => {
   it('should register a new user successfully', async () => {
-    postAsync.mockResolvedValue({ status: 201 })
+    (postAsync as Mock).mockResolvedValue({ status: 201 })
 
     await AuthServices.register({ userName: 'testUser', password: 'password' })
 
@@ -35,14 +35,14 @@ describe('AuthServices', () => {
   })
 
   it('should handle login and store tokens correctly', async () => {
-    postAsync.mockResolvedValue({
+    (postAsync as Mock).mockResolvedValue({
       status: 200,
       data: {
         userId: '123',
         token: 'header.payload',
       },
     })
-    UserService.getUserByIdAsync.mockResolvedValue({
+    (UserService.getUserByIdAsync as Mock).mockResolvedValue({
         status:200,
         data:{ userName:'testUser', credits:2000 }
     })
@@ -60,7 +60,7 @@ describe('AuthServices', () => {
   })
 
   it('should update user information after login', async () => {
-    UserService.getUserByIdAsync.mockResolvedValue({
+    (UserService.getUserByIdAsync as Mock).mockResolvedValue({
         status:200,
         data:{ userName:'UpdatedUser', credits:2000 }
     })
@@ -78,7 +78,7 @@ describe('AuthServices', () => {
   })
 
   it('should log out and clear the user session', async () => {
-    getAsync.mockResolvedValue({status:200});
+    (getAsync as Mock).mockResolvedValue({status:200});
 
     await AuthServices.logout()
 
@@ -94,7 +94,7 @@ describe('AuthServices', () => {
   })
 
   it('should handle failed login attempts', async () => {
-    postAsync.mockResolvedValue({
+    (postAsync as Mock).mockResolvedValue({
       status: 400,
     })
 

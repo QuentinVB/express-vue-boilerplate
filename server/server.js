@@ -3,6 +3,7 @@
 /**
  * Module dependencies.
  */
+require("dotenv").config();
 const http = require('http');
 const debug = require('debug')();
 

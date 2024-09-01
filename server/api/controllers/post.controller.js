@@ -28,7 +28,7 @@ const getAllPosts = asyncHandler(async (req, res, next) => {
     ...post.toObject(),
     user: {
       _id: post.userId._id,
-      name: post.userId.userName,
+      userName: post.userId.userName,
     },
   }));
 

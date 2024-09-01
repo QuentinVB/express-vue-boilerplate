@@ -5,8 +5,10 @@ import Service from './service'
 import UserApiServices from './user'
 import User from '../models/User'
 import { useUserStore } from '@/stores/user'
+import type { AxiosError } from 'axios'
 
 const endpoint = 'auth'
+const isDev = process.env.NODE_ENV === 'development'
 
 class AuthServices extends Service {
   private _USERID
@@ -37,12 +39,13 @@ class AuthServices extends Service {
   public async register(credentials: UserCreation) {
     try {
       const res = await postAsync(this.forgeUrl(`${endpoint}/register`), credentials)
-      if (res.status !== 201) throw new Error('Not registred, something went wrong')
       //TODO : redirect to "confirm your mail" instead of login
-      router.push({ name: 'login' })
-    } catch (err) {
-      console.error(err)
-      //TODO : display error msg
+      if (res.status == 201) router.push({ name: 'login' });
+      if (isDev) console.info('User successfully registered');
+      return 'Utilisateur crée, vérifiez vos e-mail'
+    } catch (err:any) {
+      if (isDev) console.error(err)
+      throw err.response.data.error;
     }
   }
 
@@ -55,8 +58,6 @@ class AuthServices extends Service {
       localStorage.setItem('userId', res.data.userId)
 
       const splitedJWT = res.data.token.split('.')
-      //should be length 2
-      //console.log(splitedJWT.length === 2)
       const header = splitedJWT[0]
       const payload = splitedJWT[1]
       this._JWT_header = header
@@ -68,8 +69,11 @@ class AuthServices extends Service {
 
       //store user info in store
       await this.updateUserInfo(this._USERID as string)
+
+      if (isDev) console.info('User successfully logged')
+      return res.data.msg
     } catch (err) {
-      console.error(err)
+      if (isDev) console.error(err)
       throw err
     }
   }
@@ -85,13 +89,15 @@ class AuthServices extends Service {
     })
   }
 
-  public async logout(withServerCall = true) {
+  public async logout(withServerCall = true):Promise<any> {
     const userStore = useUserStore()
     if (withServerCall) {
       try {
-        await getAsync(this.forgeUrl(`${endpoint}/logout`))
+        await getAsync(this.forgeUrl(`${endpoint}/logout`));
+        if (isDev) console.info('User logged out on Server')
       } catch (error) {
-        console.info('Already logged out')
+        if (isDev) console.info('Already logged out')
+        return error;
       }
     }
     localStorage.removeItem('userId')
@@ -102,7 +108,39 @@ class AuthServices extends Service {
     this._USERID = null
     router.push({ name: 'home' })
     userStore.$reset()
-    console.info('Successfully logged out')
+    if (isDev) console.info('Successfully logged out on Client');
+    return 'Déconnecté';
+  }
+
+  public async requestPasswordRecuperation(userEmail: string) {
+    try {
+      const res = await postAsync(this.forgeUrl(`${endpoint}/requestpasswordreset`), { userEmail })
+      if (res.status !== 200) throw new Error('Email not send, something went wrong')
+      //TODO : redirect to "confirm your mail" instead of login
+      router.push({ name: 'login' })
+      if (isDev) console.info('Email successfully send')
+      return res.data.msg
+    } catch (err) {
+      if (isDev) console.error(err)
+      throw err
+    }
+  }
+
+  public async changePassword(id: string, password: string, key: string) {
+    try {
+      const res = await postAsync(this.forgeUrl(`${endpoint}/changepassword`), {
+        id,
+        password,
+        key
+      })
+      if (res.status !== 200) throw new Error('Not changed, something went wrong')
+      router.push({ name: 'login' })
+      if (isDev) console.info('User password successfully changed')
+      return res.data.msg
+    } catch (err) {
+      if (isDev) console.error(err)
+      throw err
+    }
   }
 }
 

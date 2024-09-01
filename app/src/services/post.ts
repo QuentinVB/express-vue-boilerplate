@@ -3,6 +3,7 @@ import Post from '../models/Post'
 import Service from './service'
 
 const endpoint = 'api/post'
+const isDev = process.env.NODE_ENV === 'development'
 
 class PostApiServices extends Service {
   getPostsAsync() {
@@ -11,8 +12,15 @@ class PostApiServices extends Service {
   getPostByIdAsync(uuid: String) {
     return getAsync<Post>(this.forgeUrl(`${endpoint}/${uuid}`))
   }
-  createPostAsync(Post: Post) {
-    return postAsync(this.forgeUrl(`${endpoint}`), { Post: Post })
+  async createPostAsync(Post: Post) {
+     
+    try {
+      const res = await postAsync(this.forgeUrl(`${endpoint}`), { Post: Post })
+      return res;
+    } catch (error) {
+      if(isDev)console.error(error) 
+      throw error;   
+    }
   }
   updatePostAsync(uuid: String, Post: Post) {
     return putAsync(this.forgeUrl(`${endpoint}/${uuid}`), { Post: Post })

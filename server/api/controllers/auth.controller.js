@@ -3,7 +3,11 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { createUser } = require("./user.controller");
-const { confirmKey } = require("../../helpers/confirmKey.js");
+const {
+  confirmKey,
+  confirmKeyGenerator,
+} = require("../../helpers/confirmKey.js");
+const { sendEmailReset } = require("../../services/emailer.js");
 const isDev = process.env.NODE_ENV === "development";
 
 const register = asyncHandler(async (req, res, next) => {
@@ -54,8 +58,9 @@ const login = asyncHandler(async (req, res, next) => {
       // si cela correspond on renvoie l'id utilisateur et on le signe
       userId: user.id,
       token: `${JWT_TokenSplited[0]}.${JWT_TokenSplited[1]}`,
+      msg:"Connecté !"
     });
-  if(isDev)console.log(`Successfully log in user ${userName}-${user._id}  `);
+  if (isDev) console.log(`Successfully log in user ${userName}-${user._id}  `);
 });
 
 const logout = asyncHandler(async (req, res, next) => {
@@ -87,4 +92,93 @@ const confirm = asyncHandler(async (req, res, next) => {
   }
 });
 
-module.exports = { register, login, logout, confirm };
+const passwordResetRequest = asyncHandler(async (req, res, next) => {
+  const userEmail = req.body.userEmail;
+
+  const user = await UserModel.findOne({ userEmail: userEmail });
+  if (!user) {
+    return res
+      .status(403)
+      .json({ error: "Utilisateur ou mot de passe non trouvé !" })
+      .end();
+  }
+  //TODO : mark user a "reset in progress"
+
+  //FIXME: coupling and to many responsibilities
+  if (process.env.NODE_ENV !== "test") {
+    const key = await confirmKeyGenerator(
+      user.id,
+      user.userName,
+      user.userEmail
+    );
+    await sendEmailReset(userEmail, user.id, key);
+  }
+  return res
+    .status("200")
+    .json({ msg: "Mail envoyé, consultez votre messagerie" })
+    .end();
+});
+
+const passwordReset = asyncHandler(async (req, res, next) => {
+  const key = req.query.key;
+  const userId = req.query.id;
+
+  const userToReset = await UserModel.findById(userId);
+
+  if (
+    await confirmKey(
+      userToReset.id,
+      userToReset.userName,
+      userToReset.userEmail,
+      key
+    )
+  ) {
+    await userToReset.save();
+    res.redirect(
+      `/app/changePassword?id=${encodeURI(userToReset.id)}&key=${encodeURI(
+        key
+      )}`
+    );
+  } else {
+    return res
+      .status(403)
+      .json({ error: "Utilisateur non confirmé, email invalide" });
+  }
+});
+
+const changePassword = asyncHandler(async (req, res, next) => {
+  const key = req.body.key;
+  const userId = req.body.id;
+  const newPassword = req.body.password;
+
+  const userToChange = await UserModel.findById(userId);
+
+  if (
+    await confirmKey(
+      userToChange.id,
+      userToChange.userName,
+      userToChange.userEmail,
+      key
+    )
+  ) {
+    const hash = await bcrypt.hash(newPassword, 10);
+    userToChange.passwordHash = hash;
+
+    await UserModel.findByIdAndUpdate(userId, userToChange);
+    return res.status(200).json({ msg: "Mot de passe mis à jour" });
+  } else {
+    return res
+      .status(403)
+      .json({ error: "Utilisateur non confirmé, email invalide" });
+  }
+});
+
+module.exports = {
+  register,
+  login,
+  logout,
+  confirm,
+  passwordResetRequest,
+  passwordReset,
+  changePassword,
+};

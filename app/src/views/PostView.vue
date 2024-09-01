@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import { useToast } from 'vue-toast-notification';
 import { onMounted } from 'vue'
 import { ref } from 'vue'
 import SendIcon from '../components/icons/IconSending.vue'
 import PostApiServices from '@/services/post'
 import Post from '@/models/Post'
 import { useUserStore } from '@/stores/user'
-import PostItem from '@/components/PostItem.vue'
+import PostItem from '@/components/PostItem.vue';
+const $toast = useToast();
 const userStore = useUserStore()
 const message = ref('')
 let posts = ref<Post[]>([])
@@ -22,12 +24,12 @@ function SendMessage() {
   const post = new Post('')
   post.message = message.value
   PostApiServices.createPostAsync(post)
-    .then((_) => {
+    .then(_ => {
       message.value = ''
-      updatePosts()
+      updatePosts();
     })
     .catch((err: any) => {
-      console.error(err)
+      $toast.error(err);
     })
 }
 </script>

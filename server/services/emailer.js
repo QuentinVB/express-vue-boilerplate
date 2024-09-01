@@ -1,3 +1,4 @@
+require("dotenv").config();
 const nodemailer = require("nodemailer");
 const Handlebars = require("handlebars");
 const path = require("path");
@@ -6,15 +7,16 @@ const fs = require("fs/promises");
 const isDev = process.env.NODE_ENV === "development";
 
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST, // The hostname of the SMTP server
-  port: process.env.SMTP_PORT, // The port of the SMTP server (commonly 587 for secure, 25 for insecure)
-  secure: process.env.SMTP_TLS, // Defines if the connection should use SSL/TLS. If true, the port should be 465
+  host: process.env.SMTP_HOST, 
+  port: process.env.SMTP_PORT*1,  //(commonly 587 for secure, 25 for insecure)
+  secure: process.env.SMTP_TLS == "true", 
   auth: {
     type: "login",
     user: process.env.SMTP_USR, // SMTP username
     pass: process.env.SMTP_PWD, // SMTP password
   },
   tls: {
+    //ciphers:'SSLv3',
     rejectUnauthorized: false,
   },
   debug: isDev,
@@ -48,4 +50,15 @@ async function sendEmailConfirm(to, userid, key) {
   sendEmail(to, "Confirmation de l'adresse email", html);
 }
 
-module.exports = { sendEmailConfirm };
+async function sendEmailReset(to, userid, key) {
+  const file = await fs.readFile(
+    path.join(__dirname, "../templates/email-reset.hbs"),
+    "utf-8"
+  );
+  const template = Handlebars.compile(file);
+  url = `http://${process.env.APP_DOMAIN}:${process.env.PORTSERVER}/auth/resetpassword?id=${encodeURI(userid)}&key=${encodeURI(key)}`;
+  const html = template({ url });
+  sendEmail(to, "Réinitialisation du mot de passe", html);
+}
+
+module.exports = { sendEmailConfirm,sendEmailReset };

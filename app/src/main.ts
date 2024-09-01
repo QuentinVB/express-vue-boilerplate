@@ -2,16 +2,18 @@ import './assets/main.css'
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import { useUserStore } from '@/stores/user'
+import ToastPlugin from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-bootstrap.css';
 
 import App from './App.vue'
 import router from './routes'
 import auth from './services/auth'
 
-const app = createApp(App)
-
-app.use(createPinia())
-app.use(router)
-useUserStore()
+const app = createApp(App);
+app.use(ToastPlugin);
+app.use(createPinia());
+app.use(router);
+useUserStore();
 
 if (auth.IsLogged) {
   auth.updateUserInfo(auth.USER_ID as string)
