@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { useToast } from 'vue-toast-notification'
 import AuthServices from '@/services/auth'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
+const $toast = useToast()
 const userStore = useUserStore()
 const userEmail = ref('')
 
@@ -10,9 +12,13 @@ function register() {
     userEmail: userEmail.value,
   }
 
-  AuthServices.requestPasswordRecuperation(credentials.userEmail).then((_) => {
-    console.info('Email successfully send')
-  })
+  AuthServices.requestPasswordRecuperation(credentials.userEmail)
+    .then(msg => {
+      $toast.success(msg);
+    })
+    .catch(err => {
+      $toast.error(err);
+    })
 }
 </script>
 

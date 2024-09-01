@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useToast } from 'vue-toast-notification';
 import AuthServices from '@/services/auth'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
@@ -7,8 +8,8 @@ const password = ref('')
 const passwordConfirm = ref('')
 let userId: string = "";
 let key: string = "";
-
 let urlParams = new URLSearchParams(window.location.search);
+const $toast = useToast();
 
 if (urlParams.has('id')) {
   userId = urlParams.get('id') ?? "";
@@ -20,8 +21,8 @@ if (urlParams.has('key')) {
 //TODO il url invalid
 
 function changePassword() {
-  AuthServices.changePassword(userId, password.value, key).then((_) => {
-    console.info('User password successfully changed')
+  AuthServices.changePassword(userId, password.value, key).then((msg) => {
+    $toast.success(msg);
   })
 }
 </script>

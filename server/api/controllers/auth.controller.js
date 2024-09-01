@@ -58,6 +58,7 @@ const login = asyncHandler(async (req, res, next) => {
       // si cela correspond on renvoie l'id utilisateur et on le signe
       userId: user.id,
       token: `${JWT_TokenSplited[0]}.${JWT_TokenSplited[1]}`,
+      msg:"Connecté !"
     });
   if (isDev) console.log(`Successfully log in user ${userName}-${user._id}  `);
 });
