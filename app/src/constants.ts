@@ -1,10 +1,10 @@
-const isDev = process.env.NODE_ENV === 'development'
+const isDev = import.meta.env.DEV
 
 const devConfig = {
   api: 'http://localhost:3000/'
 }
 const prodConfig = {
-  api: 'http://localhost:8080/'
+  api: import.meta.env.VITE_API_URL
 }
 
 export const API_URL = isDev ? devConfig.api : prodConfig.api

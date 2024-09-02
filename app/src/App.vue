@@ -3,6 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
+const isDev = import.meta.env.DEV;
 </script>
 
 <template>
@@ -14,7 +15,7 @@ const userStore = useUserStore()
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/ping">Ping</RouterLink>
+        <RouterLink v-if="isDev" to="/ping">Ping</RouterLink>
         <RouterLink to="/post">Post</RouterLink>
         <RouterLink v-if="userStore.IsLogged" to="/logout">Logout</RouterLink>
         <RouterLink v-if="!userStore.IsLogged" to="/login">Login</RouterLink>

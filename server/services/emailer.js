@@ -25,7 +25,7 @@ const transporter = nodemailer.createTransport({
 //TODO : make it async, and stripe HTML
 function sendEmail(to, subject, html) {
   const mailOptions = {
-    from: "dev.test@localhost",
+    from: process.env.SMTP_EMAIL,
     to: to,
     subject: subject,
     html: html,

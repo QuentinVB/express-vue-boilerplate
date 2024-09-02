@@ -8,7 +8,7 @@ const $toast = useToast();
 function logout() {
   AuthServices.logout()
     .then(msg => {
-      $toast.success(msg);
+      $toast.info(msg);
     })
 
 }
