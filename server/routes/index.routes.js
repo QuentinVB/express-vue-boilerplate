@@ -9,6 +9,10 @@ router.get("/", async function (req, res, next) {
   res.redirect("/app/")
 });
 
+router.get("/robots.txt", async function (req, res, next) {
+    res.render("robots");
+});
+
 router.get("/app/*", async function (req, res, next) {
   if (isDev) {
     res.render("index-dev", { devUrl: process.env.APP_REDIRECT });

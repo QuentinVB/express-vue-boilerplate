@@ -45,7 +45,7 @@ async function sendEmailConfirm(to, userid, key) {
     "utf-8"
   );
   const template = Handlebars.compile(file);
-  url = `http://${process.env.APP_DOMAIN}:${process.env.PORTSERVER}/auth/confirm?id=${encodeURI(userid)}&key=${encodeURI(key)}`;
+  url = `http://${process.env.APP_DOMAIN}/auth/confirm?id=${encodeURI(userid)}&key=${encodeURI(key)}`;
   const html = template({ url });
   sendEmail(to, "Confirmation de l'adresse email", html);
 }
@@ -56,7 +56,7 @@ async function sendEmailReset(to, userid, key) {
     "utf-8"
   );
   const template = Handlebars.compile(file);
-  url = `http://${process.env.APP_DOMAIN}:${process.env.PORTSERVER}/auth/resetpassword?id=${encodeURI(userid)}&key=${encodeURI(key)}`;
+  url = `http://${process.env.APP_DOMAIN}/auth/resetpassword?id=${encodeURI(userid)}&key=${encodeURI(key)}`;
   const html = template({ url });
   sendEmail(to, "Réinitialisation du mot de passe", html);
 }
