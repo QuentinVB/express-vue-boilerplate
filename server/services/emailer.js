@@ -61,4 +61,27 @@ async function sendEmailReset(to, userid, key) {
   sendEmail(to, "Réinitialisation du mot de passe", html);
 }
 
-module.exports = { sendEmailConfirm,sendEmailReset };
+async function sendEmailReminderConfirm(to, userid, key) {
+  //FIXME : potential IO bottleneck
+  const file = await fs.readFile(
+    path.join(__dirname, "../templates/email-reminderconfirm.hbs"),
+    "utf-8"
+  );
+  const template = Handlebars.compile(file);
+  url = `http://${process.env.APP_DOMAIN}/auth/confirm?id=${encodeURI(userid)}&key=${encodeURI(key)}`;
+  const html = template({ url });
+  sendEmail(to, "Rappel confirmation de compte", html);
+}
+
+async function sendEmailDelete(to) {
+  //FIXME : potential IO bottleneck
+  const file = await fs.readFile(
+    path.join(__dirname, "../templates/email-forget.hbs"),
+    "utf-8"
+  );
+  const template = Handlebars.compile(file);
+  const html = template();
+  sendEmail(to, "Rappel confirmation de compte", html);
+}
+
+module.exports = { sendEmailConfirm,sendEmailReset,sendEmailReminderConfirm ,sendEmailDelete};
