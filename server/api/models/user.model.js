@@ -19,7 +19,7 @@ const UserSchema = new Schema(
 
     accountCreation: Date,
     accountLastConnection: Date,
-    imageUrl:String
+    profilePictureFilename:{ type: String, default: '' }
   },
   {
     timestamps: true,

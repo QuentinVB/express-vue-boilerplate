@@ -57,8 +57,7 @@ const router = createRouter({
     {
       path: '/user-settings',
       name: 'userSettings',
-      component: () => import('../views/UserEditView.vue')
-      
+      component: () => import('../views/UserEditView.vue')   
     }
   ]
 })
