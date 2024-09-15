@@ -85,6 +85,10 @@ const putUser = asyncHandler(async (req, res, next) => {
     const hash = await bcrypt.hash(password, 10);
     user.passwordHash = hash;
   }
+  if(req.file)
+  {
+    user.imageUrl= `${process.env.APP_DOMAIN}/media/${req.file.filename}`
+  }
 
   let updatedUser = await UserModel.findByIdAndUpdate(id, user, { new: true });
 

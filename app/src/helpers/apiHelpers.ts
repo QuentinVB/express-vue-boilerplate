@@ -9,13 +9,13 @@ function dataFilter (data, type) {
 }
 */
 
-function getAxiosConfig() {
+function getAxiosConfig(additionnalHeader={}) {
   const authConfig = authService.IsLogged
     ? { Authorization: `Bearer ${authService.JWT_TOKEN}` }
     : null
 
   const config = {
-    headers: { ...authConfig },
+    headers: { ...authConfig,...additionnalHeader },
     withCredentials: authService.IsLogged
   }
   return config
@@ -53,6 +53,22 @@ export function putAsync(url: string, data: Object) {
     throw e
   })
 }
+export function putFormAsync(url: string, data: Object) {
+  /* await axios.get({
+      method: 'PUT',
+      url: url,
+      dataType: 'json',
+      dataFilter: dataFilter,
+  });
+  */
+  return axios.put(url, data, getAxiosConfig({'Content-Type':'multipart/form-data'})).catch((e) => {
+    if (e.response.status === 401) {
+      router.push({ name: 'login' })
+    }
+    throw e
+  })
+}
+
 
 export function postAsync(url: string, data: Object) {
   /* await axios.get({

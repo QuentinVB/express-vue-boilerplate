@@ -83,6 +83,7 @@ class AuthServices extends Service {
     const userStore = useUserStore()
     const userInfoRes = await UserApiServices.getUserByIdAsync<User>(userId)
     userStore.$patch({
+      userId: userId as string,
       userName: userInfoRes.data.userName as string,
       credits: userInfoRes.data.credits as number,
       IsLogged: true

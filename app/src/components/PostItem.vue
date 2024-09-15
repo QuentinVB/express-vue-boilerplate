@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type Post from '@/models/Post';
-
+import IconUser from './icons/IconUser.vue'
 defineProps<{
   post: Post
 }>()
@@ -8,6 +8,7 @@ defineProps<{
 
 <template>
   <div class="message">
+    <div class="profile-picture"><IconUser/></div>
     <div class="author">{{ post.user.userName }}</div>
     <div>{{ post.message }}</div>
   </div>

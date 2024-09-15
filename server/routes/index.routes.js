@@ -22,6 +22,8 @@ router.get("/app/*", async function (req, res, next) {
   res.status(200).sendFile(path.join(__dirname, "../../dist/index.html"))
 });
 
+router.get('/media', express.static(path.join(__dirname, '..','medias')));
+
 if (isDev) {
   router.get("/src/*", async function (req, res, next) {
     console.info("Dev mode, redirect to Vite");
