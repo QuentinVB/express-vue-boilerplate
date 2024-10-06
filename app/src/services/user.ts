@@ -1,4 +1,4 @@
-import { getAsync, putAsync, postAsync } from '../helpers/apiHelpers'
+import { getAsync, putFormAsync, postAsync } from '../helpers/apiHelpers'
 import User from '../models/User'
 import Service from './service'
 
@@ -14,8 +14,8 @@ class UserApiServices extends Service {
   createUserAsync(user: User) {
     return postAsync(this.forgeUrl(`${endpoint}`), { user: user })
   }
-  updateUserAsync(uuid: String, user: User) {
-    return putAsync(this.forgeUrl(`${endpoint}/${uuid}`), { user: user })
+  updateUserAsync(uuid: String, form: FormData) {
+    return putFormAsync(this.forgeUrl(`${endpoint}/${uuid}`), form)
   }
 }
 

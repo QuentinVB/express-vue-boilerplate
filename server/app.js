@@ -21,9 +21,13 @@ const DBInit = require("./helpers/dbConnect");
 const indexRouter = require("./routes/index.routes");
 const authRouter = require("./routes/auth.routes");
 const apiRouter = require("./routes/api.routes");
+const jobs = require("./services/scheduler");
 
 // initialize mongoDB
 if(!isTest) DBInit();
+
+//load scheduled tasks
+jobs.forEach(job=>job());
 
 // initialize and configure express
 const app = express();

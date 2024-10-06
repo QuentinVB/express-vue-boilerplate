@@ -20,6 +20,7 @@ const isDev = import.meta.env.DEV;
         <RouterLink v-if="userStore.IsLogged" to="/logout">Logout</RouterLink>
         <RouterLink v-if="!userStore.IsLogged" to="/login">Login</RouterLink>
         <RouterLink v-if="!userStore.IsLogged" to="/register">Register</RouterLink>
+        <RouterLink v-if="userStore.IsLogged" to="/user-settings">Paramètres</RouterLink>
       </nav>
     </div>
   </header>

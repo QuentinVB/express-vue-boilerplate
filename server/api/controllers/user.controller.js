@@ -64,10 +64,6 @@ const getUserById = asyncHandler(async (req, res, next) => {
     return;
     throw error;
   }
-  if (!user) {
-    res.status(404).json({ error: "user not found", id });
-    return;
-  }
 
   user = user.toObject();
   delete user.passwordHash;
@@ -78,16 +74,29 @@ const getUserById = asyncHandler(async (req, res, next) => {
 
 //UPDATE
 const putUser = asyncHandler(async (req, res, next) => {
-  const { password, ...user } = req.body.User;
+  //const { password, ...user } = req.body.User;
   const id = req.params.id;
-
+  /*
   if (password) {
     const hash = await bcrypt.hash(password, 10);
     user.passwordHash = hash;
+  }*/
+
+  let updatedUser;
+  try {
+    updatedUser = await UserModel.findByIdAndUpdate(
+      id,
+      { 
+        profilePictureFilename: req.file.filename ?? ""
+      },
+      {
+        new: true,
+      }
+    );
+  } catch (error) {
+    res.status(404).json({ error: "user not found", id });
+    return;
   }
-
-  let updatedUser = await UserModel.findByIdAndUpdate(id, user, { new: true });
-
   updatedUser = updatedUser.toObject();
   delete updatedUser.passwordHash;
 
